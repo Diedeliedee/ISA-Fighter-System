@@ -1,59 +1,34 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-public class JoystickInput
+public struct JoystickInput
 {
-    private readonly float m_sqrDeadzone = 0f;
+    public Direction    direction;
+    public Vector2Int   vector;
+    public Vector2      raw;
 
-    public Direction direction 
-    { 
-        get; 
-        private set; 
-    }
-
-    public Vector2Int vector
+    public JoystickInput(StickControl stick)
     {
-        get
-        {
-            switch (direction)
-            {
-                default:                    return Vector2Int.zero;
-
-                case Direction.Up:          return Vector2Int.up;
-                case Direction.Down:        return Vector2Int.down;
-                case Direction.Left:        return Vector2Int.left;
-                case Direction.Right:       return Vector2Int.right;
-
-                case Direction.TopLeft:     return new Vector2Int(-1, 1);
-                case Direction.TopRight:    return new Vector2Int(1, 1);
-                case Direction.DownLeft:    return new Vector2Int(-1, -1);
-                case Direction.DownRight:   return new Vector2Int(1, -1);
-            }
-        }
+        raw         = stick.ReadValue();
+        direction   = ToDirection(raw);
+        vector      = ToVector(direction);
     }
 
-    public Vector2 raw
-    { 
-        get;
-        private set; 
-    }
-
-    public JoystickInput(float deadzone)
+    public JoystickInput(DpadControl dpad)
     {
-        m_sqrDeadzone = deadzone * deadzone;
-    }
-    
-    public void Set(StickControl stick)
-    {
-        var input = stick.ReadValue();
+        vector = Vector2Int.zero;
 
-        raw = input;
+        if (dpad.up.isPressed)      vector.y++;
+        if (dpad.down.isPressed)    vector.y--;
+        if (dpad.left.isPressed)    vector.x--;
+        if (dpad.right.isPressed)   vector.x++;
 
-        if (input.sqrMagnitude < m_sqrDeadzone) direction = ToDirection(input);
-        else                                    direction = Direction.None;
+        raw         = vector;
+        direction   = ToDirection(vector);
     }
 
-    private Direction ToDirection(Vector2 direction)
+    private static Direction ToDirection(Vector2 direction)
     {
         if (direction.y > 0)
         {
@@ -72,6 +47,24 @@ public class JoystickInput
             if (direction.x > 0)                return Direction.Right;
             if (direction.x < 0)                return Direction.Left;
                                                 return Direction.None;
+        }
+    }
+
+    private static Vector2Int ToVector(Direction direction)
+    {
+        switch (direction)
+        {
+            default:                    return Vector2Int.zero;
+
+            case Direction.Up:          return Vector2Int.up;
+            case Direction.Down:        return Vector2Int.down;
+            case Direction.Left:        return Vector2Int.left;
+            case Direction.Right:       return Vector2Int.right;
+
+            case Direction.TopLeft:     return new Vector2Int(-1, 1);
+            case Direction.TopRight:    return new Vector2Int(1, 1);
+            case Direction.DownLeft:    return new Vector2Int(-1, -1);
+            case Direction.DownRight:   return new Vector2Int(1, -1);
         }
     }
 

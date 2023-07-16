@@ -3,25 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 
-public class InputPackage
+public struct InputPackage
 {
-    public JoystickInput joystick   { get; private set; }
+    public readonly JoystickInput   joystick;
+    public readonly ButtonInput     punchButton;
+    public readonly ButtonInput     kickButton;
 
-    public ButtonInput punchButton  { get; private set; }
-    public ButtonInput kickButton   { get; private set; }
-
-    public InputPackage()
+    public InputPackage(StickControl stick, ButtonControl punch, ButtonControl kick)
     {
-        joystick    = new JoystickInput(0.1f);
-
-        punchButton = new ButtonInput();
-        kickButton  = new ButtonInput();
-    }
-
-    public void Set(StickControl stick, ButtonControl punch, ButtonControl kick)
-    {
-        joystick    .Set(stick);
-        punchButton .Set(punch);
-        kickButton  .Set(kick);
+        joystick    = new JoystickInput(stick);
+        punchButton = new ButtonInput(punch);
+        kickButton  = new ButtonInput(kick);
     }
 }

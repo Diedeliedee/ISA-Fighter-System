@@ -1,12 +1,12 @@
 ﻿using UnityEngine.InputSystem.Controls;
 
-public class ButtonInput
+public struct ButtonInput
 {
-    public bool pressed     { get; private set; }
-    public bool holding     { get; private set; }
-    public bool released    { get; private set; }
+    public readonly bool pressed;
+    public readonly bool holding;
+    public readonly bool released;
 
-    public void Set(ButtonControl button)
+    public ButtonInput(ButtonControl button)
     {
         pressed     = button.wasPressedThisFrame;
         holding     = button.isPressed;
