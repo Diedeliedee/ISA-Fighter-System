@@ -15,4 +15,29 @@ public struct InputPackage
         punchButton = new ButtonInput(punch);
         kickButton  = new ButtonInput(kick);
     }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is InputPackage other && Equals(other);
+    }
+
+    public bool Equals(InputPackage other)
+    {
+        return
+            (
+                joystick    == other.joystick &&
+                punchButton == other.punchButton &&
+                kickButton  == other.kickButton
+            );
+    }
+
+    public static bool operator ==(InputPackage lhs, InputPackage rhs)
+    {
+        return lhs.Equals(rhs);
+    }
+
+    public static bool operator !=(InputPackage lhs, InputPackage rhs)
+    {
+        return !lhs.Equals(rhs);
+    }
 }

@@ -28,6 +28,26 @@ public struct JoystickInput
         direction   = ToDirection(vector);
     }
 
+    public override bool Equals(object? obj)
+    {
+        return obj is JoystickInput other && Equals(other);
+    }
+
+    public bool Equals(JoystickInput other)
+    {
+        return direction == other.direction;
+    }
+
+    public static bool operator ==(JoystickInput lhs, JoystickInput rhs)
+    {
+        return lhs.Equals(rhs);
+    }
+
+    public static bool operator !=(JoystickInput lhs, JoystickInput rhs)
+    {
+        return !lhs.Equals(rhs);
+    }
+
     private static Direction ToDirection(Vector2 direction)
     {
         if (direction.y > 0)
