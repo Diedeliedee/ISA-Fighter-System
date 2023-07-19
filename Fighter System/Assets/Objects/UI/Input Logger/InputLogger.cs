@@ -13,16 +13,21 @@ public class InputLogger : MonoBehaviour
     private LinkedList<InputIndicator> m_indicators = null;
     private RectTransform m_field                   = null;
 
-    private void Start()
+    public void Setup()
     {
         m_indicators    = new LinkedList<InputIndicator>();
         m_field         = GetComponent<RectTransform>();
+
+        GameManager.instance.events.onInputChange.AddListener(AddIndicator);
     }
 
     public void AddIndicator(InputPackage package)
     {
         //  Add the indicator to the list.
-        m_indicators.AddFirst(Instantiate(m_indicatorPrefab, m_field).GetComponent<InputIndicator>());
+        var indicator = Instantiate(m_indicatorPrefab, m_field).GetComponent<InputIndicator>();
+
+        indicator       .Configure(package);
+        m_indicators    .AddFirst(indicator);
 
         //  Reorganize all the indicators.
         OrganizeIndicators();
@@ -39,7 +44,7 @@ public class InputLogger : MonoBehaviour
             var newPosition = offset - m_seperation;
 
             //  If the new position would beyond the left side of the screen, mark and continue.
-            if (newPosition <= -m_field.sizeDelta.x)
+            if (newPosition <= -m_field.rect.width)
             {
                 marked.Add(indicator);
                 continue;
@@ -54,6 +59,7 @@ public class InputLogger : MonoBehaviour
         foreach (var indicator in marked)
         {
             m_indicators.Remove(indicator);
+            Destroy(indicator.gameObject);
         }
     }
 }

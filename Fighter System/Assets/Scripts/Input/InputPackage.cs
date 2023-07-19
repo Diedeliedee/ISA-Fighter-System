@@ -16,6 +16,13 @@ public struct InputPackage
         kickButton  = new ButtonInput(kick);
     }
 
+    public InputPackage(KeyCode up, KeyCode down, KeyCode left, KeyCode right, KeyCode punch, KeyCode kick)
+    {
+        joystick    = new JoystickInput(up, down, left, right);
+        punchButton = new ButtonInput(punch);
+        kickButton  = new ButtonInput(kick);
+    }
+
     public override bool Equals(object? obj)
     {
         return obj is InputPackage other && Equals(other);

@@ -1,4 +1,5 @@
-﻿using UnityEngine.InputSystem.Controls;
+﻿using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 public struct ButtonInput
 {
@@ -13,6 +14,13 @@ public struct ButtonInput
         released    = button.wasReleasedThisFrame;
     }
 
+    public ButtonInput(KeyCode key)
+    {
+        pressed     = Input.GetKeyDown(key);
+        holding     = Input.GetKey(key);
+        released    = Input.GetKeyUp(key);
+    }
+
     public override bool Equals(object? obj)
     {
         return obj is ButtonInput other && Equals(other);
@@ -20,12 +28,8 @@ public struct ButtonInput
 
     public bool Equals(ButtonInput other)
     {
-        return
-            (
-                pressed     == other.pressed &&
-                holding     == other.holding &&
-                released    == other.released
-            );
+        //  For now we only want the 'holding' variable to have value in determining equality.
+        return holding == other.holding;
     }
 
     public static bool operator ==(ButtonInput lhs, ButtonInput rhs)

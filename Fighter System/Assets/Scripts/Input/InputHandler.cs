@@ -17,9 +17,27 @@ public class InputHandler
     {
         var package = new InputPackage(gamepad.leftStick, gamepad.buttonSouth, gamepad.buttonEast);
 
-        history.AddFirst(package);
+        SavePackage(package);
+        return package;
+    }
 
-        lastPackage = package;
-        return        package;
+    public InputPackage GetPackage()
+    {
+        //  Hardcoded buttons for now. :(
+        var package = new InputPackage(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.M, KeyCode.K);
+
+        SavePackage(package);
+        return package;
+    }
+
+    private void SavePackage(InputPackage package)
+    {
+        //  If the new package is not different from the last, don't bother saving.
+        if (package == lastPackage) return;
+
+        history.AddFirst(package);
+        lastPackage    = package;
+
+        GameManager.instance.events.onInputChange.Invoke(package);
     }
 }

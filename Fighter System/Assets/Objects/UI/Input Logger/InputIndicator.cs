@@ -43,9 +43,9 @@ public class InputIndicator : MonoBehaviour
         var kickColor   = m_kickButton.color;
 
         //  Alter values.
-        arrowAngle  = Vector2.SignedAngle(Vector2.up, input.joystick.vector);
-        punchColor  *= m_inactiveMulitplier;
-        kickColor   *= m_inactiveMulitplier;
+        arrowAngle                                  = Vector2.SignedAngle(Vector2.up, input.joystick.vector);
+        if (!input.punchButton.holding) punchColor  *= m_inactiveMulitplier;
+        if (!input.kickButton.holding) kickColor    *= m_inactiveMulitplier;
 
         //  Reassign values.
         m_arrow.localRotation   = Quaternion.Euler(0f, 0f, arrowAngle);

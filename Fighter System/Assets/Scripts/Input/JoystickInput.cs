@@ -28,6 +28,19 @@ public struct JoystickInput
         direction   = ToDirection(vector);
     }
 
+    public JoystickInput(KeyCode up, KeyCode down, KeyCode left, KeyCode right)
+    {
+        vector = Vector2Int.zero;
+
+        if (Input.GetKey(up))       vector.y++;
+        if (Input.GetKey(down))     vector.y--;
+        if (Input.GetKey(left))     vector.x--;
+        if (Input.GetKey(right))    vector.x++;
+
+        raw         = vector;
+        direction   = ToDirection(vector);
+    }
+
     public override bool Equals(object? obj)
     {
         return obj is JoystickInput other && Equals(other);
@@ -58,8 +71,8 @@ public struct JoystickInput
         }
         else if (direction.y < 0)
         {
-            if (direction.x > direction.y / 2)  return Direction.DownLeft;
-            if (direction.x < -direction.y / 2) return Direction.DownRight;
+            if (direction.x > -direction.y / 2) return Direction.DownLeft;
+            if (direction.x < direction.y / 2)  return Direction.DownRight;
                                                 return Direction.Down;
         }
         else
