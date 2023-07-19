@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Joeri.Tools.Structure;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     //   Sub-managers:
     private UIManager m_ui          = null;
@@ -17,13 +18,6 @@ public class GameManager : MonoBehaviour
     #region Properties
     public EventManager events { get => m_events; }
     #endregion
-
-    //  TODO: Implement Singleton<T> class in tools.
-    public static GameManager instance
-    {
-        get;
-        private set;
-    }
 
     private void Awake()
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Joeri.Tools.Utilities;
 
 public class InputIndicator : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class InputIndicator : MonoBehaviour
         var kickColor   = m_kickButton.color;
 
         //  Alter values.
-        arrowAngle                                  = Vector2.SignedAngle(Vector2.up, input.joystick.vector);
+        arrowAngle                                  = Vectors.VectorToAngle(input.joystick.vector);
         if (!input.punchButton.holding) punchColor  *= m_inactiveMulitplier;
         if (!input.kickButton.holding) kickColor    *= m_inactiveMulitplier;
 
