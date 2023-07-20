@@ -14,8 +14,8 @@ namespace Joeri.Tools.Movement
             public float CalculateVelocity(float desiredVelocity, float grip, float deltaTime)
             {
                 //  Calculating steering.
-                var steering = desiredVelocity - velocity;
-                steering *= Mathf.Clamp01(grip * deltaTime);
+                var steering                        = desiredVelocity - velocity;
+                if (grip < Mathf.Infinity) steering *= Mathf.Clamp01(grip * deltaTime);
 
                 //  Calculating velocity.
                 velocity += steering;

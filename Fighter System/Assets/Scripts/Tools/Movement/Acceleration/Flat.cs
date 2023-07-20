@@ -8,15 +8,15 @@ namespace Joeri.Tools.Movement
     {
         public class Flat
         {
-            public Vector2 velocity = Vector2.zero;
-            public Vector2 desiredVelocity = Vector2.zero;
+            public Vector2 velocity         = Vector2.zero;
+            public Vector2 desiredVelocity  = Vector2.zero;
 
             /// <returns>The desired velocity based on the given parameters and current conditions.</returns>
             public Vector2 CalculateVelocity(Vector2 desiredVelocity, float grip, float deltaTime)
             {
                 //  Calculating steering.
-                var steering = desiredVelocity - velocity;
-                steering *= Mathf.Clamp01(grip * deltaTime);
+                var steering                        = desiredVelocity - velocity;
+                if (grip < Mathf.Infinity) steering *= Mathf.Clamp01(grip * deltaTime);
 
                 //  Calculating velocity.
                 velocity += steering;

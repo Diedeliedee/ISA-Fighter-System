@@ -12,11 +12,11 @@ namespace Joeri.Tools.Movement
     public class MovementBase
     {
         //  Components:
-        protected Accel.Flat m_horizontal = new Accel.Flat();
+        protected Accel.Flat m_horizontal       = new Accel.Flat();
         protected Accel.Uncontrolled m_vertical = new Accel.Uncontrolled(0f, 0f, 0f);
 
         //  Run-time:
-        protected bool m_onGround = false;
+        protected bool m_onGround           = false;
         protected Vector3 m_lastGroundedPos = Vector3.zero;
 
         private float m_rotationVelocity = 0f;
@@ -25,7 +25,6 @@ namespace Joeri.Tools.Movement
         private LayerMask m_movementMask;
 
         #region Properties
-
         //  Movement Properties:
         public float speed { get; set; }
         public float grip { get; set; }
@@ -39,7 +38,6 @@ namespace Joeri.Tools.Movement
         public float rotationTime { get; set; }
         public bool canRotate { get; set; }
 
-
         //  Run-time data:
         public Vector3 velocity
         {
@@ -48,7 +46,7 @@ namespace Joeri.Tools.Movement
             {
                 m_horizontal.velocity.x = value.x;
                 m_horizontal.velocity.y = value.z;
-                m_vertical.velocity = value.y;
+                m_vertical.velocity     = value.y;
             }
         }
         public Vector2 flatVelocity
@@ -62,7 +60,7 @@ namespace Joeri.Tools.Movement
             set => m_vertical.velocity = value;
         }
 
-        public bool onGround { get => m_onGround; }
+        public bool onGround                { get => m_onGround; }
         public Vector3 lastGroundedPosition { get => m_lastGroundedPos; }
 
         //  Reference:
@@ -82,7 +80,6 @@ namespace Joeri.Tools.Movement
         }
 
         protected Vector3 groundCheckOrigin { get => lowerOrbCenter + Vector3.down * controller.skinWidth * 2; }
-
         #endregion
 
         public MovementBase(GameObject root, Settings settings)
@@ -95,11 +92,11 @@ namespace Joeri.Tools.Movement
                 return;
             }
 
-            speed = settings.baseSpeed;
-            grip = settings.baseGrip;
-            gravity = settings.baseGravity;
-            rotationTime = settings.baseRotationTime;
-            canRotate = settings.baseRotationTime < Mathf.Infinity;
+            speed           = settings.baseSpeed;
+            grip            = settings.baseGrip;
+            gravity         = settings.baseGravity;
+            rotationTime    = settings.baseRotationTime;
+            canRotate       = settings.baseRotationTime < Mathf.Infinity;
 
             m_movementMask = settings.movementMask;
 
@@ -195,8 +192,8 @@ namespace Joeri.Tools.Movement
 
         public bool ShouldStepDown()
         {
-            if (!m_onGround) return false;              //  Return if the player was not standing on ground the previous frame.
-            if (verticalVelocity > 0f) return false;    //  Return if the player is moving upward.
+            if (!m_onGround)            return false;   //  Return if the player was not standing on ground the previous frame.
+            if (verticalVelocity > 0f)  return false;   //  Return if the player is moving upward.
             if (!Physics.Raycast(controller.transform.position, Vector3.down, out RaycastHit hit, controller.stepOffset, m_movementMask, QueryTriggerInteraction.Ignore)) return false;
             return true;
         }

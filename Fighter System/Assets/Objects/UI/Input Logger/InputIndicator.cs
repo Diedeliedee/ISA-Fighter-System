@@ -44,7 +44,7 @@ public class InputIndicator : MonoBehaviour
         var kickColor   = m_kickButton.color;
 
         //  Alter values.
-        arrowAngle                                  = Vectors.VectorToAngle(input.joystick.vector);
+        arrowAngle                                  = -Vectors.VectorToAngle(input.joystick.vector);
         if (!input.punchButton.holding) punchColor  *= m_inactiveMulitplier;
         if (!input.kickButton.holding) kickColor    *= m_inactiveMulitplier;
 
