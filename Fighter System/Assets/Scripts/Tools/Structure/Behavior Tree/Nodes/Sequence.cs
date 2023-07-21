@@ -8,6 +8,8 @@ namespace Joeri.Tools.Structure.BehaviorTree
 {
     public class Sequence : Node
     {
+        public Sequence(params Node[] children) : base(children) { }
+
         public override State Evaluate()
         {
             var anyChildIsRunning = false;
@@ -15,7 +17,7 @@ namespace Joeri.Tools.Structure.BehaviorTree
             //  Check node states of the children.
             foreach (var node in children)
             {
-                switch (node.state)
+                switch (node.Evaluate())
                 {
                     //  If any node has failed, the sequence is broken.
                     case State.Failure:

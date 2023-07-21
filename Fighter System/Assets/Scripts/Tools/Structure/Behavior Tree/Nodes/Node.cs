@@ -15,7 +15,7 @@ namespace Joeri.Tools.Structure.BehaviorTree
         private Node m_parent       = null;
         private Node[] m_children   = null;
 
-        private Dictionary<string, object> m_dataRepository = null;
+        private Dictionary<string, object> m_dataRepository = new Dictionary<string, object>();
 
         public State state { get => m_state; }
 
@@ -34,15 +34,12 @@ namespace Joeri.Tools.Structure.BehaviorTree
             {
                 if (m_children == null)
                     Debug.LogError($"Node of type {this} does not have any children nodes.");
-                return m_parent;
+                return m_children;
             }
         }
 
         public Node(params Node[] childrenNodes)
         {
-            //  Initialize data repository.
-            m_dataRepository = new Dictionary<string, object>();
-
             //  Attach children to the node.
             m_children = childrenNodes;
 

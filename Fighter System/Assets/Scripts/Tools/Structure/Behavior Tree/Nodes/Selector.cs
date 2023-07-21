@@ -8,12 +8,14 @@ namespace Joeri.Tools.Structure.BehaviorTree
 {
     public class Selector : Node
     {
+        public Selector(params Node[] children) : base(children) { }
+
         public override State Evaluate()
         {
             //  Check node states of the children.
             foreach (var node in children)
             {
-                switch (node.state)
+                switch (node.Evaluate())
                 {
                     //  If the current node has failed, move on to evaluate the next.
                     case State.Failure:

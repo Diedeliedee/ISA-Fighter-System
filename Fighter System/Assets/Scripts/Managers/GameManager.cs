@@ -9,7 +9,7 @@ using Joeri.Tools.Structure;
 public class GameManager : Singleton<GameManager>
 {
     //  Values:
-    public const int frameRate      = 10;
+    public const int frameRate      = 60;
     public static float deltaTime   = 0f;
 
     //   Sub-managers:
