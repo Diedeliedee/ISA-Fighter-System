@@ -10,11 +10,15 @@ namespace Joeri.Tools.Structure.BehaviorTree
 {
     public abstract class Node
     {
-        private State m_state       = State.Failure;
+        private State m_state = State.Failure;
+
         private Node m_parent       = null;
         private Node[] m_children   = null;
 
+        private Dictionary<string, object> m_dataRepository = null;
+
         public State state { get => m_state; }
+
         public Node parent
         {
             get
@@ -36,6 +40,9 @@ namespace Joeri.Tools.Structure.BehaviorTree
 
         public Node(params Node[] childrenNodes)
         {
+            //  Initialize data repository.
+            m_dataRepository = new Dictionary<string, object>();
+
             //  Attach children to the node.
             m_children = childrenNodes;
 
@@ -66,6 +73,37 @@ namespace Joeri.Tools.Structure.BehaviorTree
             return    stateToReturn;
         }
 
+        /// <summary>
+        /// Stores a value in the node's data repository, retrievable by a key.
+        /// </summary>
+        public void SetData(string key, object value)
+        {
+            m_dataRepository[key] = value;
+        }
+
+        /// <summary>
+        /// Searches in all of the node's upper hierarchy for data retrievable by the passed in key.
+        /// </summary>
+        /// <returns>The value associated with the key, if it has been found.</returns>
+        public object GetData(string key)
+        {
+            var nodeToCheck = this;
+
+            while (nodeToCheck != null)
+            {
+                if (m_dataRepository.TryGetValue(key, out object value))
+                    return value;
+
+                nodeToCheck = nodeToCheck.m_parent;
+            }
+
+            Debug.LogWarning($"Data '{key}' has not been found in node type {this}.");
+            return null;
+        }
+
+        /// <summary>
+        /// The state of a node.
+        /// </summary>
         public enum State
         {
             Failure = 0,
