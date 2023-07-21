@@ -26,8 +26,8 @@ namespace Joeri.Tools.Movement
 
         #region Properties
         //  Movement Properties:
-        public float speed { get; set; }
-        public float grip { get; set; }
+        public float speed  { get; set; }
+        public float grip   { get; set; }
         public float gravity
         {
             get => m_vertical.acceleration;
@@ -35,8 +35,8 @@ namespace Joeri.Tools.Movement
         }
 
         //  Rotation Properties:
-        public float rotationTime { get; set; }
-        public bool canRotate { get; set; }
+        public float rotationTime   { get; set; }
+        public bool canRotate       { get; set; }
 
         //  Run-time data:
         public Vector3 velocity
@@ -108,8 +108,8 @@ namespace Joeri.Tools.Movement
         /// </summary>
         public void ApplyDesiredVelocity(Vector2 desiredVelocity, float deltaTime)
         {
-            m_horizontal.CalculateVelocity(desiredVelocity, grip, deltaTime);
-            m_vertical.CalculateVelocity(deltaTime);
+            m_horizontal    .CalculateVelocity(desiredVelocity, grip, deltaTime);
+            m_vertical      .CalculateVelocity(deltaTime);
 
             if (canRotate && flatVelocity != Vector2.zero) RotateToVelocity(deltaTime);
 

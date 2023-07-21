@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Joeri.Tools.Structure
+namespace Joeri.Tools.Structure.StateMachine
 {
     public abstract class State
     {

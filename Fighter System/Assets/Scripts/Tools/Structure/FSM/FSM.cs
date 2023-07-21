@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Joeri.Tools.Debugging;
 
-namespace Joeri.Tools.Structure
+namespace Joeri.Tools.Structure.StateMachine
 {
     /// <summary>
     /// Class handling a class-based finite state machine system,
