@@ -12,6 +12,8 @@ public class GameManager : Singleton<GameManager>
     public const int frameRate      = 60;
     public static float deltaTime   = 0f;
 
+    private int m_frameCount = 0;
+
     //   Sub-managers:
     private EntityManager m_entities    = null;
     private EventManager m_events       = null;
@@ -24,6 +26,8 @@ public class GameManager : Singleton<GameManager>
     public EventManager events      { get => m_events; }
 
     public InputPackage latestInput { get => m_input.lastPackage; }
+
+    public int frameCount { get => m_frameCount; }
     #endregion
 
     private void Awake()
@@ -49,5 +53,7 @@ public class GameManager : Singleton<GameManager>
     {
         m_input     .GetPackage();
         m_entities  .Tick(deltaTime);
+
+        m_frameCount++;
     }
 }

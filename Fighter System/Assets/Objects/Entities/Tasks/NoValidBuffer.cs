@@ -15,9 +15,13 @@ public partial class Player
 
         public override State Evaluate()
         {
-            if (GameManager.instance.latestInput.punchButton.holding || source.m_performingMove)
+            if (GameManager.instance.latestInput.punchButton.holding)
             {
                 source.m_performingMove = true;
+                return RetrieveState(State.Failure);
+            }
+            if (source.m_performingMove)
+            {
                 return RetrieveState(State.Failure);
             }
             return RetrieveState(State.Succes);

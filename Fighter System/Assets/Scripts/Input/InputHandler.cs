@@ -5,12 +5,12 @@ using UnityEngine.InputSystem;
 
 public class InputHandler
 {
-    public LinkedList<InputPackage> history { get; private set; }
-    public InputPackage lastPackage         { get; private set; }
+    public InputHistory history     { get; private set; }
+    public InputPackage lastPackage { get; private set; }
 
     public InputHandler()
     {
-        history = new LinkedList<InputPackage>();
+        history = new InputHistory();
     }
 
     public InputPackage GetPackage(Gamepad gamepad)
@@ -35,9 +35,8 @@ public class InputHandler
         //  If the new package is not different from the last, don't bother saving.
         if (package == lastPackage) return;
 
-        history.AddFirst(package);
-        lastPackage    = package;
-
+        history.Add(package, GameManager.instance.frameCount);
+        lastPackage = package;
         GameManager.instance.events.onInputChange.Invoke(package);
     }
 }
