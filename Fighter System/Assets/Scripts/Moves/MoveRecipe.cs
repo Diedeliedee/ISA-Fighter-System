@@ -10,6 +10,7 @@ public class MoveRecipe
     [SerializeField] private InputRequirement[] m_precendences  = new InputRequirement[1];
     [SerializeField] private InputRequirement m_activator       = null;
 
+    /// <returns>True if this recipe corresponds to the player's input.</returns>
     public bool ConfirmRecipe(InputHistory history)
     {
         var capture     = history.lastCapture;
@@ -38,6 +39,7 @@ public class MoveRecipe
         return true;
     }
 
+    /// <returns>True if the package corresponds to the requirement.</returns>
     public bool ConfirmInput(InputPackage package, InputRequirement requirement)
     {
         var directionOkay   = true;
