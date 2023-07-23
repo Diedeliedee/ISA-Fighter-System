@@ -7,7 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class MoveRecipe
 {
-    [SerializeField] private InputRequirement[] m_precendences  = new InputRequirement[1];
+    [SerializeField] private InputRequirement[] m_precendences  = null;
     [SerializeField] private InputRequirement m_activator       = null;
 
     /// <returns>True if this recipe corresponds to the player's input.</returns>

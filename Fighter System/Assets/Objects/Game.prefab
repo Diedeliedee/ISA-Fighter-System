@@ -396,6 +396,7 @@ MonoBehaviour:
     movementMask:
       serializedVersion: 2
       m_Bits: 0
+  m_moveSet: {fileID: 11400000, guid: c4598478b555d08498bcc3bccfd142ff, type: 2}
 --- !u!143 &2812153237253500309
 CharacterController:
   m_ObjectHideFlags: 0

@@ -65,14 +65,14 @@ public struct JoystickInput
     {
         if (direction.y > 0)
         {
+            if (direction.x < -direction.y / 2) return Direction.TopLeft;
             if (direction.x > direction.y / 2)  return Direction.TopRight;
-            if (direction.x < -direction.y / 2) return Direction.TopRight;
                                                 return Direction.Up;
         }
         else if (direction.y < 0)
         {
-            if (direction.x > -direction.y / 2) return Direction.DownLeft;
-            if (direction.x < direction.y / 2)  return Direction.DownRight;
+            if (direction.x < direction.y / 2)  return Direction.DownLeft;
+            if (direction.x > -direction.y / 2) return Direction.DownRight;
                                                 return Direction.Down;
         }
         else

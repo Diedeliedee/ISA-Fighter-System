@@ -17,12 +17,10 @@ public partial class Player
 
         public override State Evaluate()
         {
-            //  Do stuff.
-
             if (!m_timer.ResetOnReach(GameManager.deltaTime))
                 return RetrieveState(State.Running);
 
-            source.m_performingMove = false;
+            source.m_combat.FinishMove();
             return RetrieveState(State.Succes);
         }
     }

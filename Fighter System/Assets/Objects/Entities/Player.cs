@@ -37,7 +37,7 @@ public partial class Player : MonoBehaviour
                 (
                     new Sequence
                     (
-                        new NoValidBuffer(this),
+                        new CheckForInput(this),
                         new FreeRoam(this)
                     ),
                     new PerformMove(this)

@@ -6,7 +6,7 @@ using UnityEngine;
 public partial class MoveConcept : ScriptableObject
 {
     [SerializeField] private AnimationClip m_animation      = null;
-    [SerializeField] private MovePossibility[] m_followups  = new MovePossibility[1];
+    [SerializeField] private MovePossibility[] m_followups  = null;
 
     public AnimationClip animation      { get => m_animation; }
     public  MovePossibility[] followups { get => m_followups; }

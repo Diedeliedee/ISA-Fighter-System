@@ -23,9 +23,10 @@ public class GameManager : Singleton<GameManager>
     private InputHandler m_input = null;
 
     #region Properties
-    public EventManager events      { get => m_events; }
+    public EventManager events { get => m_events; }
 
-    public InputPackage latestInput { get => m_input.lastPackage; }
+    public InputHistory inputHistory    { get => m_input.history; }
+    public InputPackage latestInput     { get => m_input.lastPackage; }
 
     public int frameCount { get => m_frameCount; }
     #endregion

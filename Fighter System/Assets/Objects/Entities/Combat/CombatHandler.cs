@@ -26,7 +26,8 @@ public class CombatHandler
     /// Searches for any possible input to execute a move in the given situation.
     /// Will do nothin if no possibility has been found.
     /// </summary>
-    public void ExecuteMoveUponValidInput(InputHistory history)
+    /// <returns>True if a move is executed.</returns>
+    public bool ExecuteMoveUponValidInput(InputHistory history)
     {
         MoveConcept moveToExecute;
 
@@ -36,7 +37,12 @@ public class CombatHandler
         //  If the player is performing a move, search for any possible follow-ups ot the move.
         else                CheckForValidInput(history, out moveToExecute, m_activeMove.followups);
 
-        if (moveToExecute != null) ExecuteMove(moveToExecute);
+        //  If the move to execute is not found, return false.
+        if (moveToExecute == null) return false;
+
+        //  Otherwise, execute the move.
+        ExecuteMove(moveToExecute);
+        return true;
     }
 
     /// <summary>
@@ -46,7 +52,19 @@ public class CombatHandler
     {
         m_activeMove = move;
 
-        m_animator.Play(move.animation.name);
+        //  Debug: Enable this line when animations are worked out.
+        //m_animator.Play(move.animation.name);
+    }
+
+    public void FinishMove()
+    {
+        if (m_activeMove == null)
+        {
+            Debug.LogWarning("FinishMove() is being called when a move isn't active, check it out.");
+            return;
+        }
+
+        m_activeMove = null;
     }
 
     /// <summary>
