@@ -14,14 +14,17 @@ public class HitRegister<T> where T : Object
     private HashSet<Collider2D> m_caughtColliders   = null;
     private System.Action<T> m_onHit                = null;
 
-    public void Setup()
+    public void Setup(System.Action<T> onHit)
     {
         m_hurtboxes         = new List<Hurtbox>();
         m_caughtColliders   = new HashSet<Collider2D>();
+
+        m_onHit += onHit;
     }
 
     /// <summary>
-    /// Checks whether the hurtboxes caught anything.
+    /// Checks whether the hurtboxes caught anything,
+    /// and calls an event as soon as an object with of this class' generic variable has been caught.
     /// </summary>
     public void CheckForHits()
     {
@@ -33,11 +36,10 @@ public class HitRegister<T> where T : Object
             {
                 if (m_caughtColliders.Contains(collider)) continue;                 //  Skip iteration if collider has already been caught.
                 m_caughtColliders.Add(collider);                                    //  Save collider if it hasn't been caught yet.
-                if (!collider.TryGetComponent(out hitObject)) continue;             //  Skip iteration if the caught collider doesn't have what we're looking for.
-                return true;                                                        //  If we do find what we're looking for, return true.
+                if (!collider.TryGetComponent(out T hitObject)) continue;           //  Skip iteration if the caught collider doesn't have what we're looking for.
+                m_onHit?.Invoke(hitObject);                                         //  If we found what we're looking for, call the associated event.
             }
         }
-        return false;                                                               //  Return false if none of the hurtboxes in the loop succesfully hit something.
     }
 
 

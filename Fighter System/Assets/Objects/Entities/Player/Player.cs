@@ -12,6 +12,9 @@ public partial class Player : MonoBehaviour
     [SerializeField] private MovementBase.Settings  m_movementSettings;
     [SerializeField] private MoveSet                m_moveSet;
 
+    [Header("Run-time:")]
+    [SerializeField] private HitRegister<PunchingBag> m_hitRegister;
+
     //  Sub-components
     private PlayerController m_movement = null;
     private CombatHandler m_combat      = null;
@@ -21,15 +24,12 @@ public partial class Player : MonoBehaviour
     //  Dependencies:
     private Animator m_animator = null;
 
-    //  TODO: Switch out with actual 'Move' scriptable object.
-    private bool m_performingMove = false;
-
     public void Setup()
     {
         m_animator = GetComponent<Animator>();
 
         m_movement  = new PlayerController(gameObject, m_movementSettings);
-        m_combat    = new CombatHandler(m_moveSet, m_animator);
+        m_combat    = new CombatHandler(m_moveSet, m_hitRegister, m_animator);
 
         m_behaviorTree = new BehaviorTree
             (
@@ -48,5 +48,10 @@ public partial class Player : MonoBehaviour
     public void Tick(float deltaTime)
     {
         m_behaviorTree.Tick();
+    }
+
+    public void OnDrawGizmos()
+    {
+        m_hitRegister.Draw(transform.position.z);
     }
 }

@@ -6,7 +6,8 @@ using Joeri.Tools.Utilities;
 public class CombatHandler
 {
     //  Dependencies:
-    private Animator m_animator = null;
+    private HitRegister<PunchingBag> m_hitRegister  = null;
+    private Animator m_animator                     = null;
 
     //  Cache:
     private MoveSet m_moveset           = null;
@@ -16,10 +17,14 @@ public class CombatHandler
     public bool executingMove       { get => m_activeMove != null; }
     public MoveConcept activeMove   { get => m_activeMove; }
 
-    public CombatHandler(MoveSet moveSet, Animator animator)
+    public CombatHandler(MoveSet moveSet, HitRegister<PunchingBag> hitRegister, Animator animator)
     {
-        m_moveset   = moveSet;
-        m_animator  = animator;
+        hitRegister.Setup(OnHitTarget);
+
+        m_moveset = moveSet;
+
+        m_hitRegister   = hitRegister;
+        m_animator      = animator;
     }
 
     /// <summary>
@@ -55,7 +60,20 @@ public class CombatHandler
         //  Debug: Enable this line when animations are worked out.
         //m_animator.Play(move.animation.name);
     }
+    
+    /// <summary>
+    /// Called by an external behavior tree, should only be called while the move is in active state.
+    /// No startup, no cooldown.
+    /// </summary>
+    public void TickMove()
+    {
+        m_hitRegister.CheckForHits();
+    }
 
+    /// <summary>
+    /// Finished the move, preferably called by animator event.
+    /// Any external behavior tree should react to this source.
+    /// </summary>
     public void FinishMove()
     {
         if (m_activeMove == null)
@@ -64,6 +82,7 @@ public class CombatHandler
             return;
         }
 
+        m_hitRegister.Clear();
         m_activeMove = null;
     }
 
@@ -86,5 +105,13 @@ public class CombatHandler
         //  Return false if the array is unusable.
         move = null;
         return false;
+    }
+
+    /// <summary>
+    /// Called by an event, executes proper logic once a target has been hit.
+    /// </summary>
+    private void OnHitTarget(PunchingBag target)
+    {
+        Debug.Log("Target hit!!!!");
     }
 }
