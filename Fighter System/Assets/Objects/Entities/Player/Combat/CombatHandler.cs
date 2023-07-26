@@ -55,7 +55,8 @@ public class CombatHandler
     /// </summary>
     public void ExecuteMove(MoveConcept move)
     {
-        m_activeMove = move;
+        m_activeMove            = move;
+        m_hitRegister.hurtboxes = move.hurtboxes;
 
         //  Debug: Enable this line when animations are worked out.
         //m_animator.Play(move.animation.name);

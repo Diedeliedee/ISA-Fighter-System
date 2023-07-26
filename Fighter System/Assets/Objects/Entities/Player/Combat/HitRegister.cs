@@ -8,15 +8,16 @@ using Joeri.Tools.Utilities;
 [System.Serializable]
 public class HitRegister<T> where T : Object
 {
-    [SerializeField] private List<Hurtbox> m_hurtboxes;
     [SerializeField] private LayerMask m_hitmask;
 
+    private Hurtbox[] m_hurtboxes                   = null;
     private HashSet<Collider2D> m_caughtColliders   = null;
     private System.Action<T> m_onHit                = null;
 
+    public Hurtbox[] hurtboxes { get => m_hurtboxes; set => m_hurtboxes = value; }
+
     public void Setup(System.Action<T> onHit)
     {
-        m_hurtboxes         = new List<Hurtbox>();
         m_caughtColliders   = new HashSet<Collider2D>();
 
         m_onHit += onHit;
@@ -28,7 +29,7 @@ public class HitRegister<T> where T : Object
     /// </summary>
     public void CheckForHits()
     {
-        if (Util.IsUnusableList(m_hurtboxes)) return;                               //  Return if there are no hurtboxes.
+        if (Util.IsUnusableArray(m_hurtboxes)) return;                              //  Return if there are no hurtboxes.
         foreach (var hurtbox in m_hurtboxes)                                        //  Otherwise, loop through every hurtbox.
         {
             if (!hurtbox.Hit(m_hitmask, out Collider2D[] hitColliders)) continue;   //  Skip iteration if no colliders have been hit.
@@ -49,6 +50,7 @@ public class HitRegister<T> where T : Object
     public void Clear()
     {
         m_caughtColliders.Clear();
+        m_hurtboxes = null;
     }
 
     /// <summary>
@@ -56,7 +58,7 @@ public class HitRegister<T> where T : Object
     /// </summary>
     public void Draw(float zPos)
     {
-        if (Util.IsUnusableList(m_hurtboxes))   return;
+        if (Util.IsUnusableArray(m_hurtboxes))  return;
         foreach (var hurtbox in m_hurtboxes)    hurtbox.Draw(zPos);
     }
 }
