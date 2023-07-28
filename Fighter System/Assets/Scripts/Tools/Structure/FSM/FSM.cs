@@ -43,8 +43,8 @@ namespace Joeri.Tools.Structure.StateMachine
         public State SwitchToState(System.Type state)
         {
             m_currentState?.OnExit();
-            try { m_currentState = m_states[state]; }
-            catch { Debug.LogError($"The state: '{state.Name}' is not found within the available state dictionary."); return null; }
+            try     { m_currentState = m_states[state]; }
+            catch   { Debug.LogError($"The state: '{state.Name}' is not found within the available state dictionary."); return null; }
             m_currentState?.OnEnter();
             return m_currentState;
         }

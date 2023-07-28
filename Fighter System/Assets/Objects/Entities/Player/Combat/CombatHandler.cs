@@ -35,7 +35,13 @@ public class CombatHandler
         framesExecuting = 0;
     }
 
-    /// <returns>True if the input from the history corresponds to the recipe of a possible move.</returns>
+    /// <returns>True if the input from the game's history corresponds to the recipe of a possible move.</returns>
+    public bool CheckForValidInput(out MoveConcept move)
+    {
+        return CheckForValidInput(GameManager.instance.inputHistory, out move);
+    }
+
+    /// <returns>True if the input from the passed in history corresponds to the recipe of a possible move.</returns>
     public bool CheckForValidInput(InputHistory history, out MoveConcept move)
     {
         //  Check for possibilities conssidering the current combat state of the player.

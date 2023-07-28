@@ -7,7 +7,7 @@ namespace Joeri.Tools.Structure.StateMachine
     /// <summary>
     /// Abstract base for a state within a state machine.
     /// </summary>
-    public abstract class FlexState<Root> : State
+    public abstract class ModuleState<Source> : State
     {
         /// <summary>
         /// The settings of the state, as an abstract settings interface.
@@ -17,30 +17,30 @@ namespace Joeri.Tools.Structure.StateMachine
         /// <summary>
         /// The root class that the state machine is harbored in.
         /// </summary>
-        protected Root root { get; private set; }
+        protected Source source { get; private set; }
 
         /// <summary>
         /// Create a new state, and pass in the state's settings.
         /// </summary>
-        public FlexState(Root root, Settings settings)
+        public ModuleState(Source source, Settings settings)
         {
-            this.root = root;
-            this.settings = settings;
+            this.source     = source;
+            this.settings   = settings;
         }
 
         /// <summary>
         /// Create a new state, without any required settings.
         /// </summary>
-        public FlexState(Root root)
+        public ModuleState(Source source)
         {
-            this.root = root;
-            settings = null;
+            this.source = source;
+            settings    = null;
         }
 
         /// <summary>
         /// Switches to another state using a generic variable.
         /// </summary>
-        protected T SwitchToState<T>() where T : FlexState<Root>
+        protected T SwitchToState<T>() where T : ModuleState<Source>
         {
             return machine.SwitchToState<T>();
         }

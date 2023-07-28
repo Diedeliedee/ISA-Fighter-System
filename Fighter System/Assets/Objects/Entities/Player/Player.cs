@@ -43,17 +43,7 @@ public partial class Player : MonoBehaviour
                             ),
                         new FreeRoam(this)
                     ),
-                    new Sequence
-                        (
-                            new ExecuteMove(this),
-                            new StartupMove(this),
-                            new ActiveMove(this),
-                            new Sequence
-                                (
-                                    new CheckForInput(this),
-                                    new RecoveryMove(this)
-                                )
-                        )
+                    new PerformMove(this)
                 )
             );
     }
