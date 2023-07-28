@@ -23,9 +23,9 @@ public class Hurtbox
     /// <summary>
     /// Draw the hurtbox as a flat 2D red rectangle.
     /// </summary>
-    public void Draw(float zPos)
+    public void Draw(Vector3 origin)
     {
-        var pos     = new Vector3(position.x, position.y, zPos);
+        var pos     = new Vector3(origin.x + position.x, origin.y + position.y, origin.z);
         var size    = new Vector3(width, height, 0f);
 
         GizmoTools.DrawOutlinedBox(pos, size, Color.red, 0.5f, true, 0.5f);

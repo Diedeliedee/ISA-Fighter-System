@@ -20,9 +20,6 @@ public partial class Player
 
         public override State Evaluate()
         {
-            if (source.m_combat.executingMove)
-                return RetrieveState(State.Failure);
-            
             if (source.m_combat.ExecuteMoveUponValidInput(GameManager.instance.inputHistory))
                 return RetrieveState(State.Failure);
 

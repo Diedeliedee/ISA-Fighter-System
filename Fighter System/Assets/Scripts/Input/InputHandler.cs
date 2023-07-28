@@ -23,8 +23,11 @@ public class InputHandler
 
     public InputPackage GetPackage()
     {
-        //  Hardcoded buttons for now. :(
-        var package = new InputPackage(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.M, KeyCode.K);
+        InputPackage package;
+
+        //  Choose between keyboard or controller input.
+        if (Gamepad.current == null)    package = new InputPackage(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.M, KeyCode.K);
+        else                            package = new InputPackage(Gamepad.current.leftStick, Gamepad.current.buttonSouth, Gamepad.current.buttonEast);
 
         SavePackage(package);
         return package;

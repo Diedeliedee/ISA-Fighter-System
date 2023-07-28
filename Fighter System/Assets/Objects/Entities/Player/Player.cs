@@ -9,11 +9,10 @@ using Joeri.Tools.Structure.BehaviorTree;
 public partial class Player : MonoBehaviour
 {
     [Header("Properties:")]
-    [SerializeField] private MovementBase.Settings  m_movementSettings;
-    [SerializeField] private MoveSet                m_moveSet;
-
-    [Header("Run-time:")]
-    [SerializeField] private HitRegister<PunchingBag> m_hitRegister;
+    [SerializeField] private MovementBase.Settings      m_movementSettings;
+    [SerializeField] private HitRegister<PunchingBag>   m_hitRegister;
+    [Space]
+    [SerializeField] private MoveSet                    m_moveSet;
 
     //  Sub-components
     private PlayerController m_movement = null;
@@ -37,6 +36,7 @@ public partial class Player : MonoBehaviour
                 (
                     new Sequence
                     (
+                        new CheckForActiveMove(this),
                         new CheckForInput(this),
                         new FreeRoam(this)
                     ),
@@ -52,6 +52,6 @@ public partial class Player : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        m_hitRegister.Draw(transform.position.z);
+        m_hitRegister.Draw(transform.position);
     }
 }

@@ -56,9 +56,9 @@ public class HitRegister<T> where T : Object
     /// <summary>
     /// Draws the hurtboxes, if there are any active.
     /// </summary>
-    public void Draw(float zPos)
+    public void Draw(Vector3 origin)
     {
         if (Util.IsUnusableArray(m_hurtboxes))  return;
-        foreach (var hurtbox in m_hurtboxes)    hurtbox.Draw(zPos);
+        foreach (var hurtbox in m_hurtboxes)    hurtbox.Draw(origin);
     }
 }

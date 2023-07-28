@@ -15,6 +15,7 @@ public class CombatHandler
 
     //  Properties:
     public bool executingMove       { get => m_activeMove != null; }
+    public bool inActiveFrames      { get; private set; }
     public MoveConcept activeMove   { get => m_activeMove; }
 
     public CombatHandler(MoveSet moveSet, HitRegister<PunchingBag> hitRegister, Animator animator)
@@ -56,10 +57,18 @@ public class CombatHandler
     public void ExecuteMove(MoveConcept move)
     {
         m_activeMove            = move;
-        m_hitRegister.hurtboxes = move.hurtboxes;
 
         //  Debug: Enable this line when animations are worked out.
         //m_animator.Play(move.animation.name);
+    }
+
+    /// <summary>
+    /// Called by animation event, activates the hurtboxes.
+    /// </summary>
+    public void SwitchToActive()
+    {
+        m_hitRegister.hurtboxes = m_activeMove.hurtboxes;
+        inActiveFrames          = true;
     }
     
     /// <summary>
@@ -72,7 +81,7 @@ public class CombatHandler
     }
 
     /// <summary>
-    /// Finished the move, preferably called by animator event.
+    /// Finished the move, preferably called by animation event.
     /// Any external behavior tree should react to this source.
     /// </summary>
     public void FinishMove()
@@ -83,8 +92,9 @@ public class CombatHandler
             return;
         }
 
-        m_hitRegister.Clear();
-        m_activeMove = null;
+        m_hitRegister   .Clear();
+        m_activeMove    = null;
+        inActiveFrames  = false;
     }
 
     /// <summary>
