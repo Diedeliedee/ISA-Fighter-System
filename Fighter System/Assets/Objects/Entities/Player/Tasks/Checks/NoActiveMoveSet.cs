@@ -9,12 +9,9 @@ using Joeri.Tools.Structure.BehaviorTree;
 
 public partial class Player
 {
-    /// <summary>
-    /// A task in a sequencer that should break the sequence if the player is already executing a move.
-    /// </summary>
-    public class CheckForActiveMove : Module<Player>
+    public class NoActiveMoveSet : Module<Player>
     {
-        public CheckForActiveMove(Player source) : base(source) { }
+        public NoActiveMoveSet(Player source) : base(source) { }
 
         public override State Evaluate()
         {

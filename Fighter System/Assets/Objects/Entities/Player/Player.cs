@@ -36,11 +36,24 @@ public partial class Player : MonoBehaviour
                 (
                     new Sequence
                     (
-                        new CheckForActiveMove(this),
-                        new CheckForInput(this),
+                        new NoActiveMoveSet(this),
+                        new Inverter
+                            (
+                                new CheckForInput(this)
+                            ),
                         new FreeRoam(this)
                     ),
-                    new PerformMove(this)
+                    new Sequence
+                        (
+                            new ExecuteMove(this),
+                            new StartupMove(this),
+                            new ActiveMove(this),
+                            new Sequence
+                                (
+                                    new CheckForInput(this),
+                                    new RecoveryMove(this)
+                                )
+                        )
                 )
             );
     }

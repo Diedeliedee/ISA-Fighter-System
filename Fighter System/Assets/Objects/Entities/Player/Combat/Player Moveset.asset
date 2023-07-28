@@ -14,30 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_entries:
   - m_recipe:
-      m_precendences:
-      - directionMatters: 1
-        desiredDirection: 2
-        shouldPressPunch: 0
-        shouldPressKick: 0
-        leeway: 10
-      - directionMatters: 1
-        desiredDirection: -1
-        shouldPressPunch: 0
-        shouldPressKick: 0
-        leeway: 10
-      - directionMatters: 1
-        desiredDirection: 4
-        shouldPressPunch: 0
-        shouldPressKick: 0
-        leeway: 10
-      - directionMatters: 1
-        desiredDirection: 3
-        shouldPressPunch: 0
-        shouldPressKick: 0
-        leeway: 10
+      m_precendences: []
       m_activator:
-        directionMatters: 0
-        desiredDirection: -1
+        directionMatters: 1
+        desiredDirection: 2
         shouldPressPunch: 1
         shouldPressKick: 0
         leeway: 0

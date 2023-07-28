@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager>
     public const int frameRate      = 60;
     public static float deltaTime   = 0f;
 
-    private int m_frameCount = 0;
+    private uint m_frameCount = 0;
 
     //   Sub-managers:
     private EntityManager m_entities    = null;
@@ -28,7 +28,7 @@ public class GameManager : Singleton<GameManager>
     public InputHistory inputHistory    { get => m_input.history; }
     public InputPackage latestInput     { get => m_input.lastPackage; }
 
-    public int frameCount { get => m_frameCount; }
+    public uint frameCount { get => m_frameCount; }
     #endregion
 
     private void Awake()

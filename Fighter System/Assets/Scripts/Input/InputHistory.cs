@@ -26,7 +26,7 @@ public class InputHistory
     /// <summary>
     /// Adds an input capture to the input history.
     /// </summary>
-    public void Add(InputPackage package, int frame)
+    public void Add(InputPackage package, uint frame)
     {
         var previousCapture = lastCapture;
         var newCapture      = new Capture(package, frame);
@@ -38,7 +38,7 @@ public class InputHistory
     }
 
     /// <returns>The package that is end the end of the duration between inputs at the given frame.</returns>
-    public InputPackage GetPackageCeil(int frame)
+    public InputPackage GetPackageCeil(uint frame)
     {
         if (!ValidForCheck(frame)) return new InputPackage(); 
         for (int i = m_captures.Count - 1; i >= 0; i--)
@@ -50,7 +50,7 @@ public class InputHistory
     }
 
     /// <returns>The package that is end the start of the duration between inputs at the given frame.</returns>
-    private InputPackage GetPackageFloor(int frame)
+    private InputPackage GetPackageFloor(uint frame)
     {
         if (!ValidForCheck(frame)) return new InputPackage(); 
         for (int i = m_captures.Count - 1; i >= 0; i--)
@@ -64,7 +64,7 @@ public class InputHistory
     }
 
     /// <returns>True if we can succesfully iterate the history with the given frame count. False if not.</returns>
-    public bool ValidForCheck(int frame)
+    public bool ValidForCheck(uint frame)
     {
         if (Util.IsUnusableList(m_captures))    return false;
         if (frame < m_captures[0].frame)        return false;
@@ -75,12 +75,12 @@ public class InputHistory
     public class Capture
     {
         public readonly InputPackage package;
-        public readonly int frame;
+        public readonly uint frame;
 
         public Capture previous = null;
         public Capture next     = null;
 
-        public int distanceToPrevious
+        public uint distanceToPrevious
         {
             get
             {
@@ -89,7 +89,7 @@ public class InputHistory
             }
         }
 
-        public int distanceToNext
+        public uint distanceToNext
         {
             get
             {
@@ -98,7 +98,7 @@ public class InputHistory
             }
         }
 
-        public Capture(InputPackage package, int frame)
+        public Capture(InputPackage package, uint frame)
         {
             this.package    = package;
             this.frame      = frame; 

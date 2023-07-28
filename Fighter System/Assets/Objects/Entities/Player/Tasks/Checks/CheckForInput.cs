@@ -9,21 +9,21 @@ using Joeri.Tools.Structure.BehaviorTree;
 
 public partial class Player
 {
-    /// <summary>
-    /// A task in a sequencer that should break the sequence if it is interrupted by a valid move to perform.
-    /// TODO: At the moment this class' task is to break the sequence when a input is valid,
-    /// however we also need to break the sequence if a move is ongoing, given the current tree design.
-    /// </summary>
     public class CheckForInput : Module<Player>
     {
         public CheckForInput(Player source) : base(source) { }
 
         public override State Evaluate()
         {
-            if (source.m_combat.ExecuteMoveUponValidInput(GameManager.instance.inputHistory))
-                return RetrieveState(State.Failure);
+            //  If an executable move has been found..
+            if (source.m_combat.CheckForValidInput(GameManager.instance.inputHistory, out MoveConcept move))
+            {
+                source.m_combat.ExecuteMove(move);  //  Activate the move in the combat handler.
+                return RetrieveState(State.Succes); //  Return succes.
+            }
 
-            return RetrieveState(State.Succes);
+            //  Otherwise, return failure.
+            return RetrieveState(State.Failure);
         }
     }
 }

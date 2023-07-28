@@ -6,49 +6,24 @@ using Joeri.Tools.Utilities;
 public class CombatHandler
 {
     //  Dependencies:
-    private HitRegister<PunchingBag> m_hitRegister  = null;
-    private Animator m_animator                     = null;
+    public MoveSet moveset                      = null;
+    public HitRegister<PunchingBag> hitRegister = null;
+    public Animator animator                    = null;
 
     //  Cache:
-    private MoveSet m_moveset           = null;
-    private MoveConcept m_activeMove    = null;
+    public MoveConcept activeMove   = null;
+    public uint framesExecuting     = 0;
 
     //  Properties:
-    public bool executingMove       { get => m_activeMove != null; }
-    public bool inActiveFrames      { get; private set; }
-    public MoveConcept activeMove   { get => m_activeMove; }
+    public bool executingMove       { get => activeMove != null; }
 
-    public CombatHandler(MoveSet moveSet, HitRegister<PunchingBag> hitRegister, Animator animator)
+    public CombatHandler(MoveSet moveset, HitRegister<PunchingBag> hitRegister, Animator animator)
     {
         hitRegister.Setup(OnHitTarget);
 
-        m_moveset = moveSet;
-
-        m_hitRegister   = hitRegister;
-        m_animator      = animator;
-    }
-
-    /// <summary>
-    /// Searches for any possible input to execute a move in the given situation.
-    /// Will do nothin if no possibility has been found.
-    /// </summary>
-    /// <returns>True if a move is executed.</returns>
-    public bool ExecuteMoveUponValidInput(InputHistory history)
-    {
-        MoveConcept moveToExecute;
-
-        //  If the player is not actively executing a move, search in the move entries, in the moveset.
-        if (!executingMove) CheckForValidInput(history, out moveToExecute, m_moveset.entries);
-
-        //  If the player is performing a move, search for any possible follow-ups ot the move.
-        else                CheckForValidInput(history, out moveToExecute, m_activeMove.followups);
-
-        //  If the move to execute is not found, return false.
-        if (moveToExecute == null) return false;
-
-        //  Otherwise, execute the move.
-        ExecuteMove(moveToExecute);
-        return true;
+        this.moveset        = moveset;
+        this.hitRegister    = hitRegister;
+        this.animator       = animator;
     }
 
     /// <summary>
@@ -56,45 +31,20 @@ public class CombatHandler
     /// </summary>
     public void ExecuteMove(MoveConcept move)
     {
-        m_activeMove            = move;
-
-        //  Debug: Enable this line when animations are worked out.
-        //m_animator.Play(move.animation.name);
+        activeMove      = move;
+        framesExecuting = 0;
     }
 
-    /// <summary>
-    /// Called by animation event, activates the hurtboxes.
-    /// </summary>
-    public void SwitchToActive()
+    /// <returns>True if the input from the history corresponds to the recipe of a possible move.</returns>
+    public bool CheckForValidInput(InputHistory history, out MoveConcept move)
     {
-        m_hitRegister.hurtboxes = m_activeMove.hurtboxes;
-        inActiveFrames          = true;
-    }
-    
-    /// <summary>
-    /// Called by an external behavior tree, should only be called while the move is in active state.
-    /// No startup, no cooldown.
-    /// </summary>
-    public void TickMove()
-    {
-        m_hitRegister.CheckForHits();
-    }
+        //  Check for possibilities conssidering the current combat state of the player.
+        if (!executingMove) CheckForValidInput(history, out move, moveset.entries);
+        else                CheckForValidInput(history, out move, activeMove.followups);
 
-    /// <summary>
-    /// Finished the move, preferably called by animation event.
-    /// Any external behavior tree should react to this source.
-    /// </summary>
-    public void FinishMove()
-    {
-        if (m_activeMove == null)
-        {
-            Debug.LogWarning("FinishMove() is being called when a move isn't active, check it out.");
-            return;
-        }
-
-        m_hitRegister   .Clear();
-        m_activeMove    = null;
-        inActiveFrames  = false;
+        //  Return true or false accordingly.
+        if (move == null)   return false;
+                            return true;
     }
 
     /// <summary>
