@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Punch Back
   m_EditorClassIdentifier: 
   m_hurtboxes:
-  - position: {x: 1, y: 1}
+  - position: {x: -1, y: 1}
     width: 1
     height: 1
   m_animation: {fileID: 0}
   m_followups: []
-  m_startup: 10
+  m_startup: 3
   m_active: 5
-  m_recovery: 10
+  m_recovery: 13
+  m_movementAmount: -1

@@ -16,6 +16,9 @@ public partial class MoveConcept : ScriptableObject
     [SerializeField] private int m_active   = 5;
     [SerializeField] private int m_recovery = 10;
 
+    [Header("Movement:")]
+    [SerializeField] private float m_movementAmount = 1f;
+
     public Hurtbox[] hurtboxes          { get => m_hurtboxes; }
     public AnimationClip animation      { get => m_animation; }
     public MovePossibility[] followups  { get => m_followups; }
@@ -27,4 +30,6 @@ public partial class MoveConcept : ScriptableObject
     public int activeMark   { get => m_startup; }
     public int recoveryMark { get => m_startup + m_active; }
     public int endMark      { get => m_startup + m_active + m_recovery; }
+
+    public float movementAmount { get => m_movementAmount; }
 }

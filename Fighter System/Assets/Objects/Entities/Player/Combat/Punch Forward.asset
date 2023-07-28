@@ -17,7 +17,17 @@ MonoBehaviour:
     width: 1
     height: 1
   m_animation: {fileID: 0}
-  m_followups: []
-  m_startup: 10
+  m_followups:
+  - m_recipe:
+      m_precendences: []
+      m_activator:
+        directionMatters: 1
+        desiredDirection: 6
+        shouldPressPunch: 0
+        shouldPressKick: 0
+        leeway: 0
+    m_move: {fileID: 11400000, guid: 3d0afd1a8422cbb4380dfe83aeb90cbd, type: 2}
+  m_startup: 8
   m_active: 5
-  m_recovery: 10
+  m_recovery: 5
+  m_movementAmount: 0.25

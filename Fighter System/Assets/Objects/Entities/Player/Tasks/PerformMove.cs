@@ -16,6 +16,7 @@ public partial class Player
         private FSM m_stateMachine = null;
 
         //  Run-time:
+        private float m_velocity        = 0f;
         private bool m_finished         = false;
         private MoveConcept m_followUp  = null;
 
@@ -55,11 +56,18 @@ public partial class Player
             return RetrieveState(State.Running);
         }
 
+        private void IterateMovement()
+        {
+            source.transform.position += new Vector3(m_velocity, 0f, 0f);
+        }
+
         private void Cleanup()
         {
             combat.activeMove       = null;
             combat.framesExecuting  = 0;
             m_stateMachine          = null;
+
+            m_velocity = 0f;
 
             m_finished = false;
             m_followUp = null;
@@ -71,11 +79,21 @@ public partial class Player
 
             public override void OnEnter()
             {
-                //source.source.m_animator.Play(source.combat.activeMove.animation.name);            
+                if (source.combat.activeMove.movementAmount != 0f)
+                {
+                    var timeInFrames        = source.combat.activeMove.recoveryMark;
+                    var distanceInMeters    = source.combat.activeMove.movementAmount;
+
+                    source.m_velocity = distanceInMeters / timeInFrames;
+                }
+
+                //  source.source.m_animator.Play(source.combat.activeMove.animation.name);            
             }
 
             public override void OnTick(float deltaTime)
             {
+                source.IterateMovement();
+
                 if (source.combat.framesExecuting >= source.combat.activeMove.activeMark)
                     SwitchToState(typeof(Active));
             }
@@ -95,6 +113,7 @@ public partial class Player
                 if (source.combat.framesExecuting >= source.combat.activeMove.recoveryMark)
                     SwitchToState(typeof(Recovery));
 
+                source.IterateMovement();
                 source.combat.hitRegister.CheckForHits();
             }
         }
