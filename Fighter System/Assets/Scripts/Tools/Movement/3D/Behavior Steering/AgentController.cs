@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Joeri.Tools.Utilities;
 
-namespace Joeri.Tools.Movement
+namespace Joeri.Tools.Movement.ThreeDee
 {
-    public class AgentController : MovementBase
+    public class AgentController : ThreeDeeMovement
     {
         private BehaviorHandler m_behaviorHandler = new BehaviorHandler();
 

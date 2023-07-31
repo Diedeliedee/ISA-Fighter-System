@@ -3,19 +3,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using Joeri.Tools.Movement;
+using Joeri.Tools.Movement.TwoDee;
 using Joeri.Tools.Structure.BehaviorTree;
 
 public partial class Player : MonoBehaviour
 {
     [Header("Properties:")]
-    [SerializeField] private MovementBase.Settings      m_movementSettings;
+    [SerializeField] private TwoDeeMovement.Settings    m_movementSettings;
     [SerializeField] private HitRegister<PunchingBag>   m_hitRegister;
     [Space]
     [SerializeField] private MoveSet                    m_moveSet;
 
     //  Sub-components
-    private PlayerController m_movement = null;
+    private TwoDeeMovement m_movement   = null;
     private CombatHandler m_combat      = null;
 
     private BehaviorTree m_behaviorTree = null;
@@ -27,7 +27,7 @@ public partial class Player : MonoBehaviour
     {
         m_animator = GetComponentInChildren<Animator>();
 
-        m_movement  = new PlayerController(gameObject, m_movementSettings);
+        m_movement  = new TwoDeeMovement(transform, m_movementSettings);
         m_combat    = new CombatHandler(m_moveSet, m_hitRegister, m_animator);
 
         m_behaviorTree = new BehaviorTree

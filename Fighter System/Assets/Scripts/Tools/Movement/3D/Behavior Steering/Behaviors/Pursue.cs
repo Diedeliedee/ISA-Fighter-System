@@ -2,7 +2,7 @@
 using Joeri.Tools.Utilities;
 using Joeri.Tools.Debugging;
 
-namespace Joeri.Tools.Movement
+namespace Joeri.Tools.Movement.ThreeDee
 {
     public class Pursue : Behavior
     {

@@ -7,13 +7,11 @@ using UnityEngine;
 using Joeri.Tools.Utilities;
 using Joeri.Tools.Debugging;
 
-namespace Joeri.Tools.Movement
+namespace Joeri.Tools.Movement.ThreeDee
 {
-    public class MovementBase
+    public class ThreeDeeMovement : BaseHandler
     {
-        //  Components:
-        protected Accel.Flat m_horizontal       = new Accel.Flat();
-        protected Accel.Uncontrolled m_vertical = new Accel.Uncontrolled(0f, 0f, 0f);
+        protected Accel.Flat m_horizontal = new Accel.Flat();
 
         //  Run-time:
         protected bool m_onGround           = false;
@@ -21,24 +19,11 @@ namespace Joeri.Tools.Movement
 
         private float m_rotationVelocity = 0f;
 
-        // Reference:
-        private LayerMask m_movementMask;
-
-        #region Properties
-        //  Movement Properties:
-        public float speed  { get; set; }
-        public float grip   { get; set; }
-        public float gravity
-        {
-            get => m_vertical.acceleration;
-            set => m_vertical.acceleration = value;
-        }
-
         //  Rotation Properties:
         public float rotationTime   { get; set; }
         public bool canRotate       { get; set; }
 
-        //  Run-time data:
+        //  Velocity Properties:
         public Vector3 velocity
         {
             get => new Vector3(m_horizontal.velocity.x, m_vertical.velocity, m_horizontal.velocity.y);
@@ -54,12 +39,8 @@ namespace Joeri.Tools.Movement
             get => m_horizontal.velocity;
             set => m_horizontal.velocity = value;
         }
-        public float verticalVelocity
-        {
-            get => m_vertical.velocity;
-            set => m_vertical.velocity = value;
-        }
 
+        //  Grounded Properties:
         public bool onGround                { get => m_onGround; }
         public Vector3 lastGroundedPosition { get => m_lastGroundedPos; }
 
@@ -78,11 +59,9 @@ namespace Joeri.Tools.Movement
                 return position;
             }
         }
-
         protected Vector3 groundCheckOrigin { get => lowerOrbCenter + Vector3.down * controller.skinWidth * 2; }
-        #endregion
 
-        public MovementBase(GameObject root, Settings settings)
+        public ThreeDeeMovement(GameObject root, Settings settings) : base(settings)
         {
             controller = root.GetComponent<CharacterController>();
 
@@ -92,13 +71,8 @@ namespace Joeri.Tools.Movement
                 return;
             }
 
-            speed           = settings.baseSpeed;
-            grip            = settings.baseGrip;
-            gravity         = settings.baseGravity;
             rotationTime    = settings.baseRotationTime;
             canRotate       = settings.baseRotationTime < Mathf.Infinity;
-
-            m_movementMask = settings.movementMask;
 
             m_lastGroundedPos = root.transform.position;
         }
@@ -114,6 +88,14 @@ namespace Joeri.Tools.Movement
             if (canRotate && flatVelocity != Vector2.zero) RotateToVelocity(deltaTime);
 
             ApplyVelocity(deltaTime);
+        }
+
+        /// <summary>
+        /// Iterates the velocity by multiplying an normalized inputvector with the set speed property.
+        /// </summary>
+        public void ApplyInput(Vector2 input, float deltaTime)
+        {
+            ApplyDesiredVelocity(input * speed, deltaTime);
         }
 
         /// <summary>
@@ -180,7 +162,7 @@ namespace Joeri.Tools.Movement
         {
             if (controller == null) return false;
 
-            var overlappingColliders = Physics.OverlapSphere(groundCheckOrigin, controller.radius, m_movementMask, QueryTriggerInteraction.Ignore);
+            var overlappingColliders = Physics.OverlapSphere(groundCheckOrigin, controller.radius, m_mask, QueryTriggerInteraction.Ignore);
 
             if (overlappingColliders.Length > 0)
             {
@@ -194,7 +176,7 @@ namespace Joeri.Tools.Movement
         {
             if (!m_onGround)            return false;   //  Return if the player was not standing on ground the previous frame.
             if (verticalVelocity > 0f)  return false;   //  Return if the player is moving upward.
-            if (!Physics.Raycast(controller.transform.position, Vector3.down, out RaycastHit hit, controller.stepOffset, m_movementMask, QueryTriggerInteraction.Ignore)) return false;
+            if (!Physics.Raycast(controller.transform.position, Vector3.down, out RaycastHit hit, controller.stepOffset, m_mask, QueryTriggerInteraction.Ignore)) return false;
             return true;
         }
 
@@ -209,15 +191,10 @@ namespace Joeri.Tools.Movement
         }
 
         [System.Serializable]
-        public class Settings
+        public class Settings : BaseHandler.Settings
         {
-            [Min(0f)] public float baseSpeed;
-            [Min(0f)] public float baseGrip;
-            public float baseGravity;
             [Space]
             [Min(0f)] public float baseRotationTime;
-            [Space]
-            public LayerMask movementMask;
         }
     }
 }

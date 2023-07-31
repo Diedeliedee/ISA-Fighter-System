@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9ad42eb8f43e4944b738581d0dc6a1b, type: 3}
-  m_Name: Punch Back
+  m_Name: Hook
   m_EditorClassIdentifier: 
   m_hurtboxes:
-  - position: {x: -1, y: 1}
+  - position: {x: 1, y: 1}
     width: 1
     height: 1
-  m_animation: {fileID: 0}
+  m_animation: {fileID: -1194947704535503963, guid: bb8bf029c3a69da41a48216c6d32f291,
+    type: 3}
   m_followups: []
-  m_startup: 3
+  m_startup: 10
   m_active: 5
-  m_recovery: 13
-  m_movementAmount: -1
+  m_recovery: 5
+  m_movementAmount: 0.5

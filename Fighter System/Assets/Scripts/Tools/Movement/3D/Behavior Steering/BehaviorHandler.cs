@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Joeri.Tools.Utilities;
 
-namespace Joeri.Tools.Movement
+namespace Joeri.Tools.Movement.ThreeDee
 {
     /// <summary>
     /// Class responsible for keeping track of behaviors, and returning their desired velocities if needed.

@@ -15,7 +15,7 @@ public partial class Player
 
         public override State Evaluate()
         {
-            var movementInput = GameManager.instance.latestInput.joystick.vector;
+            var movementInput = GameManager.instance.latestInput.joystick.vector.x;
 
             source.m_movement.ApplyInput(movementInput, GameManager.deltaTime);
             return State.Succes;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Joeri.Tools.Movement
+namespace Joeri.Tools.Movement.ThreeDee
 {
     /// <summary>
     /// Class representing a movement behavior.
