@@ -5,48 +5,43 @@ using System.Threading.Tasks;
 
 namespace Joeri.Tools.Structure.StateMachine
 {
-    public abstract class State
+    public abstract class State : IState
     {
         /// <summary>
         /// The state machine this state is a part of.
         /// </summary>
-        protected FSM machine { get; private set; }
+        protected StateMachine machine { get; private set; }
 
         /// <summary>
         /// Called whenever the finite state machine the state is in, is created.
         /// </summary>
-        public virtual void Initialize(FSM machine)
+        public virtual void Setup(StateMachine machine)
         {
             this.machine = machine;
         }
 
-        /// <summary>
-        /// Update function for the state.
-        /// </summary>
-        public virtual void OnTick(float deltaTime) { }
+        public virtual void OnEnter()   { }
 
-        /// <summary>
-        /// Called whenevet the state is entered.
-        /// </summary>
-        public virtual void OnEnter() { }
+        public virtual void OnTick()    { }
 
-        /// <summary>
-        /// Called whenever the state is exited.
-        /// </summary>
-        public virtual void OnExit() { }
+        public virtual void OnExit()    { }
 
-        /// <summary>
-        /// Switches to another state using a type variable.
-        /// </summary>
-        protected State SwitchToState(System.Type state)
+        public void SwitchToState(System.Type state)
         {
-            return machine.SwitchToState(state);
+            machine.SwitchToState(state);
         }
 
         /// <summary>
-        /// Functions for drawing gizmos of the state.
+        /// Requests the state machine to switch to another state based on the passed in generic type.
+        /// </summary>
+        protected T SwitchToState<T>() where T : State
+        {
+            return machine.SwitchToState<T>();
+        }
+
+        /// <summary>
+        /// Abstract function allowing for gizmos to be drawn by the state machine.
         /// </summary>
         public virtual void OnDrawGizmos() { }
-
     }
 }

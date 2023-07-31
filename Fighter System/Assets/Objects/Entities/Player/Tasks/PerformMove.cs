@@ -13,7 +13,7 @@ public partial class Player
     public class PerformMove : Module<Player>
     {
         //  Dependencies:
-        private FSM m_stateMachine = null;
+        private StateMachine m_stateMachine = null;
 
         //  Run-time:
         private float m_velocity        = 0f;
@@ -29,10 +29,10 @@ public partial class Player
         {
             //  If the state machine is null, the task has just started. Create a new one.
             if (m_stateMachine == null)
-                m_stateMachine = new FSM(typeof(Startup), new Startup(this), new Active(this), new Recovery(this));
+                m_stateMachine = new StateMachine(new Startup(this), new Active(this), new Recovery(this));
 
             //  Tick the state machine.
-            m_stateMachine.Tick(GameManager.deltaTime);
+            m_stateMachine.Tick();
 
             //  If the state machine has been placed in a finished state, this node has been successful.
             if (m_finished)
@@ -91,7 +91,7 @@ public partial class Player
                     source.source.m_animator.CrossFade(source.combat.activeMove.animation.name, 0f);            
             }
 
-            public override void OnTick(float deltaTime)
+            public override void OnTick()
             {
                 source.IterateMovement();
 
@@ -109,7 +109,7 @@ public partial class Player
                 source.combat.hitRegister.hurtboxes = source.combat.activeMove.hurtboxes;
             }
 
-            public override void OnTick(float deltaTime)
+            public override void OnTick()
             {
                 if (source.combat.framesExecuting >= source.combat.activeMove.recoveryMark)
                     SwitchToState(typeof(Recovery));
@@ -128,7 +128,7 @@ public partial class Player
                 source.combat.hitRegister.Clear();
             }
 
-            public override void OnTick(float deltaTime)
+            public override void OnTick()
             {
                 //  If a new input has been found during recovery, assign it in the source.
                 if (source.combat.CheckForValidInput(out MoveConcept move))
