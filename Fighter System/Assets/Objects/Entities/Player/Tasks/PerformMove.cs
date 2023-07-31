@@ -87,7 +87,8 @@ public partial class Player
                     source.m_velocity = distanceInMeters / timeInFrames;
                 }
 
-                //  source.source.m_animator.Play(source.combat.activeMove.animation.name);            
+                if (source.combat.activeMove.animation != null)
+                    source.source.m_animator.CrossFade(source.combat.activeMove.animation.name, 0f);            
             }
 
             public override void OnTick(float deltaTime)
