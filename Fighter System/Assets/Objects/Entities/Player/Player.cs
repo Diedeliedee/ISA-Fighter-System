@@ -25,7 +25,7 @@ public partial class Player : MonoBehaviour
 
     public void Setup()
     {
-        m_animator = GetComponent<Animator>();
+        m_animator = GetComponentInChildren<Animator>();
 
         m_movement  = new PlayerController(gameObject, m_movementSettings);
         m_combat    = new CombatHandler(m_moveSet, m_hitRegister, m_animator);
