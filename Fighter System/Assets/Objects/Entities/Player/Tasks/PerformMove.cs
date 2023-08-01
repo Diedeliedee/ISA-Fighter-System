@@ -13,7 +13,7 @@ public partial class Player
     public class PerformMove : Module<Player>
     {
         //  Dependencies:
-        private StateMachine m_stateMachine = null;
+        private FSM m_stateMachine = null;
 
         //  Run-time:
         private float m_velocity        = 0f;
@@ -29,7 +29,7 @@ public partial class Player
         {
             //  If the state machine is null, the task has just started. Create a new one.
             if (m_stateMachine == null)
-                m_stateMachine = new StateMachine(new Startup(this), new Active(this), new Recovery(this));
+                m_stateMachine = new FSM(new Startup(this), new Active(this), new Recovery(this));
 
             //  Tick the state machine.
             m_stateMachine.Tick();
@@ -73,7 +73,7 @@ public partial class Player
             m_followUp = null;
         }
 
-        private class Startup : ModuleState<PerformMove>
+        private class Startup : CompositeState<PerformMove>
         {
             public Startup(PerformMove source) : base(source) { }
 
@@ -100,7 +100,7 @@ public partial class Player
             }
         }
 
-        private class Active : ModuleState<PerformMove>
+        private class Active : CompositeState<PerformMove>
         {
             public Active(PerformMove source) : base(source) { }
 
@@ -119,7 +119,7 @@ public partial class Player
             }
         }
 
-        private class Recovery : ModuleState<PerformMove>
+        private class Recovery : CompositeState<PerformMove>
         {
             public Recovery(PerformMove source) : base(source) { }
 

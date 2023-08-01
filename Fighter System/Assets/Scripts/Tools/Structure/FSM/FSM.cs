@@ -8,14 +8,14 @@ namespace Joeri.Tools.Structure.StateMachine
     /// <summary>
     /// Class handling a class-based finite state machine system,
     /// </summary>
-    public class StateMachine : IStateMachine
+    public class FSM : IStateMachine
     {
         protected State m_activeState                               = null;
         protected readonly Dictionary<System.Type, State> m_states  = new Dictionary<System.Type, State>();
 
         public System.Type activeState { get => m_activeState.GetType(); }
 
-        public StateMachine(params State[] states)
+        public FSM(params State[] states)
         {
             foreach (var state in states)
             {

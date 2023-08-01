@@ -10,14 +10,14 @@ namespace Joeri.Tools.Structure.StateMachine
         /// <summary>
         /// The state machine this state is a part of.
         /// </summary>
-        protected StateMachine machine { get; private set; }
+        protected FSM owner { get; private set; }
 
         /// <summary>
         /// Called whenever the finite state machine the state is in, is created.
         /// </summary>
-        public virtual void Setup(StateMachine machine)
+        public virtual void Setup(FSM owner)
         {
-            this.machine = machine;
+            this.owner = owner;
         }
 
         public virtual void OnEnter()   { }
@@ -28,7 +28,7 @@ namespace Joeri.Tools.Structure.StateMachine
 
         public void SwitchToState(System.Type state)
         {
-            machine.SwitchToState(state);
+            owner.SwitchToState(state);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Joeri.Tools.Structure.StateMachine
         /// </summary>
         protected T SwitchToState<T>() where T : State
         {
-            return machine.SwitchToState<T>();
+            return owner.SwitchToState<T>();
         }
 
         /// <summary>

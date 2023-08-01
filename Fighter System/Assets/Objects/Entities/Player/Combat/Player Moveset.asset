@@ -22,3 +22,12 @@ MonoBehaviour:
         shouldPressKick: 0
         leeway: 0
     m_move: {fileID: 11400000, guid: 5bc6c8d2af3b2f7408aff8126df88ca6, type: 2}
+  - m_recipe:
+      m_precendences: []
+      m_activator:
+        directionMatters: 0
+        desiredDirection: -1
+        shouldPressPunch: 0
+        shouldPressKick: 1
+        leeway: 0
+    m_move: {fileID: 11400000, guid: a89f17fe455270446838455670cfb7e8, type: 2}
