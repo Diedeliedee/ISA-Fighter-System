@@ -19,7 +19,7 @@ MonoBehaviour:
   m_animation: {fileID: 7051805969413750746, guid: bb8bf029c3a69da41a48216c6d32f291,
     type: 3}
   m_followups: []
-  m_startup: 13
-  m_active: 5
-  m_recovery: 5
+  m_startup: 6
+  m_active: 2
+  m_recovery: 42
   m_movementAmount: 0.25

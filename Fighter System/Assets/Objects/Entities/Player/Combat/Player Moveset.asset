@@ -16,7 +16,7 @@ MonoBehaviour:
   - m_recipe:
       m_precendences: []
       m_activator:
-        directionMatters: 0
+        directionMatters: 1
         desiredDirection: -1
         shouldPressPunch: 1
         shouldPressKick: 0

@@ -28,7 +28,7 @@ MonoBehaviour:
         shouldPressKick: 0
         leeway: 0
     m_move: {fileID: 11400000, guid: bda076ce2dc411347846f84187eb4d06, type: 2}
-  m_startup: 8
-  m_active: 5
-  m_recovery: 5
+  m_startup: 3
+  m_active: 3
+  m_recovery: 9
   m_movementAmount: 0.25
