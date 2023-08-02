@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Joeri.Tools.Debugging;
 
@@ -10,19 +11,17 @@ namespace Joeri.Tools.Structure.StateMachine
     /// </summary>
     public class FSM : IStateMachine
     {
-        protected State m_activeState                               = null;
+        protected State m_activeState       = null;
+        protected System.Type m_startState  = null;
+
         protected readonly Dictionary<System.Type, State> m_states  = new Dictionary<System.Type, State>();
 
-        public System.Type activeState { get => m_activeState.GetType(); }
+        public State activeState    { get => m_activeState; }
+        public State[] states       { get => m_states.Values.ToArray(); }
 
         public FSM(params State[] states)
         {
-            foreach (var state in states)
-            {
-                state.Setup(this);
-                m_states.Add(state.GetType(), state);
-            }
-            SwitchToState(states[0].GetType());
+            Configure(states);
         }
 
         public virtual void Tick()
@@ -30,13 +29,29 @@ namespace Joeri.Tools.Structure.StateMachine
             m_activeState.OnTick();
         }
 
-        public void SwitchToState(System.Type state)
+        public virtual void SwitchToState(System.Type state)
         {
             m_activeState?.OnExit();
             try     { m_activeState = m_states[state]; }
             catch   { Debug.LogError($"The state: '{state.Name}' is not found within the state dictionary."); return; }
             m_activeState?.OnEnter();
         }
+
+        /// <summary>
+        /// Recommended to only use in the constructor.
+        /// </summary>
+        protected void Configure(State[] states)
+        {
+            foreach (var state in states)
+            {
+                state.Setup(this);
+                m_states.Add(state.GetType(), state);
+            }
+
+            m_startState = states[0].GetType();
+            SwitchToState(m_startState);
+        }
+
 
         /// <summary>
         /// Tells the state machine to switch to another state of the passed in generic type.

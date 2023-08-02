@@ -12,6 +12,17 @@ namespace Joeri.Tools.Structure.StateMachine
         /// </summary>
         protected FSM owner { get; private set; }
 
+        public virtual void OnEnter()   { }
+
+        public virtual void OnTick()    { }
+
+        public virtual void OnExit()    { }
+
+        public virtual void SwitchToState(System.Type state)
+        {
+            owner.SwitchToState(state);
+        }
+
         /// <summary>
         /// Called whenever the finite state machine the state is in, is created.
         /// </summary>
@@ -20,21 +31,11 @@ namespace Joeri.Tools.Structure.StateMachine
             this.owner = owner;
         }
 
-        public virtual void OnEnter()   { }
-
-        public virtual void OnTick()    { }
-
-        public virtual void OnExit()    { }
-
-        public void SwitchToState(System.Type state)
-        {
-            owner.SwitchToState(state);
-        }
 
         /// <summary>
         /// Requests the state machine to switch to another state based on the passed in generic type.
         /// </summary>
-        protected T SwitchToState<T>() where T : State
+        public virtual T SwitchToState<T>() where T : State
         {
             return owner.SwitchToState<T>();
         }
