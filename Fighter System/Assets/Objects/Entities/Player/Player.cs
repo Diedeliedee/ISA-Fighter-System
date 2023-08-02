@@ -42,8 +42,6 @@ public partial class Player : MonoBehaviour
                 new Recovery()
             )
         );
-
-        m_stateMachine.Start();
     }
 
     public void Tick(float deltaTime)

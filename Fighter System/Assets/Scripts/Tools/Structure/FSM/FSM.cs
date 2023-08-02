@@ -11,27 +11,18 @@ namespace Joeri.Tools.Structure.StateMachine
     /// </summary>
     public class FSM : IStateMachine
     {
-        protected State m_activeState       = null;
-        protected System.Type m_startState  = null;
+        protected IState m_activeState = null;
 
-        protected readonly Dictionary<System.Type, State> m_states  = new Dictionary<System.Type, State>();
+        protected readonly Dictionary<System.Type, IState> m_states  = new Dictionary<System.Type, IState>();
 
-        public State activeState    { get => m_activeState; }
-        public State[] states       { get => m_states.Values.ToArray(); }
-
-        public FSM(params State[] states)
+        public FSM(params IState[] states)
         {
             foreach (var state in states)
             {
                 state.Setup(this);
                 m_states.Add(state.GetType(), state);
             }
-            m_startState = states[0].GetType();
-        }
-
-        public virtual void Start()
-        {
-            SwitchToState(m_startState);
+            OnSwitch(states[0].GetType());
         }
 
         public virtual void Tick()
@@ -45,21 +36,12 @@ namespace Joeri.Tools.Structure.StateMachine
             m_activeState.OnTick();
         }
 
-        public virtual void SwitchToState(System.Type state)
+        public virtual void OnSwitch(System.Type state)
         {
             m_activeState?.OnExit();
             try     { m_activeState = m_states[state]; }
             catch   { Debug.LogError($"The state: '{state.Name}' is not found within the state dictionary."); return; }
             m_activeState?.OnEnter();
-        }
-
-        /// <summary>
-        /// Tells the state machine to switch to another state of the passed in generic type.
-        /// </summary>
-        public T SwitchToState<T>() where T : State
-        {
-            SwitchToState(typeof(T));
-            return (T)m_activeState;
         }
 
         /// <summary>
@@ -77,7 +59,7 @@ namespace Joeri.Tools.Structure.StateMachine
             DrawLabel(m_activeState.GetType().Name);
 
             //  Drawing the gizmos of the current state, if it isn't null.
-            m_activeState.OnDrawGizmos();
+            ((State)m_activeState).OnDrawGizmos();
         }
     }
 }

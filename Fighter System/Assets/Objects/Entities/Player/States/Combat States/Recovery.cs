@@ -15,7 +15,7 @@
                 if (source.m_combat.CheckForValidInput(out MoveConcept move))
                 {
                     source.m_combat.ExecuteMove(move);
-                    SwitchToState(typeof(Startup));
+                    Switch(typeof(Startup));
                 }
             }
         }

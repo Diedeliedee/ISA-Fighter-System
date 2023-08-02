@@ -7,51 +7,38 @@ using UnityEngine;
 
 namespace Joeri.Tools.Structure.StateMachine.Advanced
 {
-    public class CompositeFSM<T> : FSM
+    public class CompositeFSM<T> : IStateMachine
     {
-        /// <summary>
-        /// Constructor for the root state machine. Automatically relays the source instances throughout the composite.
-        /// </summary>
-        public CompositeFSM(T source, params CompositeState<T>[] states) : base(states)
-        {
-            foreach (var state in states) state.RelaySource(source);
-        }
+        private CompositeState<T> m_activeRootState                 = null;
+        private Dictionary<Type, CompositeState<T>> m_rootStates    = new Dictionary<Type, CompositeState<T>>();
 
-        /// <summary>
-        /// Constructor for any sub-state machines.
-        /// </summary>
-        public CompositeFSM(params CompositeState<T>[] states) : base(states) { }
-
-        /// <summary>
-        /// Recursively starts the state machine composite.
-        /// </summary>
-        public override void Start()
+        public CompositeFSM(T source, params CompositeState<T>[] states)
         {
-            base.Start();
-            ((CompositeState<T>)m_activeState).Start();
-        }
-
-        /// <summary>
-        /// Recursively tick the chain of active states withing the state machine.
-        /// </summary>
-        public override void Tick()
-        {
-            if (m_activeState == null)
+            foreach (var state in states)
             {
-                Debug.LogError("Active state is not yet set. Possibly the Start() function has not been called yet.");
-                return;
-            }
+                m_rootStates.Add(state.GetType(), state);
 
-            ((CompositeState<T>)m_activeState).Tick();
+                state.Setup(this);
+                state.RelaySource(source);
+            }
+            OnSwitch(states[0].GetType());
         }
 
-        /// <summary>
-        /// Recursively resets the state machine back to a default state.
-        /// </summary>
-        public void Reset()
+        public void Tick()
         {
-            ((CompositeState<T>)m_activeState).SwitchToState(m_startState);
-            SwitchToState(m_startState);
+            m_activeRootState.Tick();
+        }
+
+        public void OnSwitch(Type state)
+        {
+            m_activeRootState?.Reset();
+            m_activeRootState?.OnExit();
+
+            try     { m_activeRootState = m_rootStates[state]; }
+            catch   { Debug.LogError($"The state: '{state.Name}' is not found within the state dictionary."); return; }
+
+            m_activeRootState.OnEnter();
+            m_activeRootState.Activate();
         }
     } 
 }

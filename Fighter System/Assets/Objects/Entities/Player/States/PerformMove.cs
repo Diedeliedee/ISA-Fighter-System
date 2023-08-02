@@ -18,7 +18,7 @@ public partial class Player
             //  If the end frame has been reached, tell it to the source.
             if (source.m_combat.framesExecuting >= source.m_combat.activeMove.endMark)
             {
-                SwitchToState(typeof(FreeRoam));
+                Switch(typeof(FreeRoam));
                 return;
             }
 

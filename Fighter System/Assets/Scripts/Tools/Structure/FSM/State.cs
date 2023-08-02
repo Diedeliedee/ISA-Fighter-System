@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Joeri.Tools.Structure.StateMachine
 {
@@ -10,7 +7,7 @@ namespace Joeri.Tools.Structure.StateMachine
         /// <summary>
         /// The state machine this state is a part of.
         /// </summary>
-        protected FSM owner { get; private set; }
+        protected IStateMachine owner { get; private set; }
 
         public virtual void OnEnter()   { }
 
@@ -18,25 +15,17 @@ namespace Joeri.Tools.Structure.StateMachine
 
         public virtual void OnExit()    { }
 
-        public virtual void SwitchToState(System.Type state)
+        public virtual void Switch(Type state)
         {
-            owner.SwitchToState(state);
+            owner.OnSwitch(state);
         }
 
         /// <summary>
         /// Called whenever the finite state machine the state is in, is created.
         /// </summary>
-        public virtual void Setup(FSM owner)
+        public virtual void Setup(IStateMachine owner)
         {
             this.owner = owner;
-        }
-
-        /// <summary>
-        /// Requests the state machine to switch to another state based on the passed in generic type.
-        /// </summary>
-        public virtual T SwitchToState<T>() where T : State
-        {
-            return owner.SwitchToState<T>();
         }
 
         /// <summary>

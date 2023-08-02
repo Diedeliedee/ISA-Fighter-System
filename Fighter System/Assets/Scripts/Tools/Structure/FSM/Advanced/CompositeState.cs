@@ -6,88 +6,103 @@ using System;
 
 namespace Joeri.Tools.Structure.StateMachine.Advanced
 {
-    public abstract class CompositeState<T> : State
+    public abstract class CompositeState<T> : IState, IStateMachine
     {
-        private CompositeState<T> m_parent      = null;
-        private CompositeFSM<T> m_stateMachine  = null;
+        //  Relations:
+        private IStateMachine m_parent                          = null;
+        private Dictionary<Type, CompositeState<T>> m_children  = null;
 
-        public CompositeState<T> parent
-        {
-            get
-            {
-                if (m_parent == null)
-                {
-                    Debug.Log($"State: {this} does not have a parent state.");
-                    return null;
-                }
-                return m_parent;
-            }
-        }
-        public CompositeState<T>[] children
-        {
-            get
-            {
-                if (m_stateMachine == null || Util.IsUnusableArray(m_stateMachine.states))
-                {
-                    Debug.Log($"State: {this} does not have any child states.");
-                    return null;
-                }
-                return m_stateMachine.states as CompositeState<T>[];
-            }
-        }
+        //  Run-time:
+        private CompositeState<T> m_activeChild     = null;
+        private CompositeState<T> m_defaultChild    = null;
 
-        protected new CompositeFSM<T> owner { get => base.owner as CompositeFSM<T>; }
+        //  Properties:
         protected T source                  { get; private set; }
 
+        /// <summary>
+        /// Create a composite state with not branching states.
+        /// </summary>
         public CompositeState() { }
 
+        /// <summary>
+        /// Create a composite state with branching states.
+        /// </summary>
         public CompositeState(params CompositeState<T>[] children)
         {
-            m_stateMachine = new CompositeFSM<T>(children);
-            foreach (var child in children) child.AttachParent(this);
+            m_children = new Dictionary<Type, CompositeState<T>>();
+            foreach (var child in children)
+            {
+                m_children.Add(child.GetType(), child);
+                child.m_parent = this;
+            }
+            m_defaultChild  = children[0];
         }
 
-        /// <summary>
-        /// Called by the parent's state machine. Recursively starts the state composite.
-        /// </summary>
-        public void Start()
-        {
-            m_stateMachine?.Start();
-        }
-
-        /// <summary>
-        /// Called by the parent's state machine. Iterates this state, and all states below.
-        /// </summary>
+        #region FSM Functions
         public void Tick()
         {
             OnTick();
-            m_stateMachine?.Tick();
+            m_activeChild?.Tick();
         }
 
-        /// <summary>
-        /// Switches to another state based on the passed in parameter, and recursively resets all active child state machines.
-        /// </summary>
-        public override void SwitchToState(Type state)
+        public void OnSwitch(Type state)
         {
-            m_stateMachine?.Reset();
-            base.SwitchToState(state);
-        }
+            m_activeChild?.Reset();
+            m_activeChild?.OnExit();
 
-        /// <summary>
-        /// Switches to another state based on the generic type, and recursively resets all active child state machines.
-        /// </summary>
-        public override StateType SwitchToState<StateType>()
-        {
-            m_stateMachine?.Reset();
-            return base.SwitchToState<StateType>();
-        }
+            try     { m_activeChild = m_children[state]; }
+            catch   { Debug.LogError($"The child state: '{state.Name}' is not found within the state's lower hierarchy."); return; }
 
-        /// <summary>
-        /// Register a parent to this state.
-        /// </summary>
-        public void AttachParent(CompositeState<T> parent)
+            m_activeChild.OnEnter();
+            m_activeChild.Activate();
+            Debug.Log($"Entered state: '{state.Name}'.");
+        }
+        #endregion
+
+        #region State Functions
+        public void Setup(IStateMachine parent)
         {
             m_parent = parent;
+        }
+
+        public virtual void OnEnter()   { }
+
+        public virtual void OnTick()    { }
+
+        public virtual void OnExit()    { }
+
+        public void Switch(Type state)
+        {
+            m_parent.OnSwitch(state);
+        }
+        #endregion
+
+        #region Composite Functions
+        /// <summary>
+        /// Activates this state's FSM to it's default state.
+        /// </summary>
+        public void Activate()
+        {
+            if (m_children == null)     return;
+            if (m_activeChild != null)  return;
+
+            m_activeChild = m_defaultChild;
+            m_activeChild.OnEnter();
+            m_activeChild.Activate();
+        }
+
+        /// <summary>
+        /// Resets this state's FSM to it's default state.
+        /// </summary>
+        public void Reset()
+        {
+            if (m_children == null)     return;
+            if (m_activeChild == null)  return;
+
+            m_activeChild.Reset();
+            m_activeChild.OnExit();
+
+            m_activeChild = null;
         }
 
         /// <summary>
@@ -97,12 +112,12 @@ namespace Joeri.Tools.Structure.StateMachine.Advanced
         {
             this.source = source;
 
-            var childStates = children;
-            if (childStates == null) return;
-            foreach (var child in childStates)
+            if (m_children == null) return;
+            foreach (var child in m_children)
             {
-                child.RelaySource(source);
+                child.Value.RelaySource(source);
             }
         }
+        #endregion
     }
 }

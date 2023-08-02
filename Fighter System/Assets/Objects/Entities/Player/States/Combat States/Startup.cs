@@ -22,7 +22,7 @@ public partial class Player
         {
             if (source.m_combat.framesExecuting >= source.m_combat.activeMove.activeMark)
             {
-                SwitchToState(typeof(Active));
+                Switch(typeof(Active));
                 return;
             }
 

@@ -5,6 +5,11 @@ namespace Joeri.Tools.Structure.StateMachine
     public interface IState
     {
         /// <summary>
+        /// Called by the state machine's constructor.
+        /// </summary>
+        public void Setup(IStateMachine owner);
+
+        /// <summary>
         /// Called when the state is entered.
         /// </summary>
         public void OnEnter();
@@ -22,6 +27,6 @@ namespace Joeri.Tools.Structure.StateMachine
         /// <summary>
         /// Requests the state machine to switch to another state based on the passed in type parameter.
         /// </summary>
-        public void SwitchToState(Type stateType);
+        public void Switch(Type stateType);
     }
 }

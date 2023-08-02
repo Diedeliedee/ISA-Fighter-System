@@ -25,7 +25,7 @@ public partial class Player
             if (source.m_combat.CheckForValidInput(GameManager.instance.inputHistory, out MoveConcept move))
             {
                 source.m_combat.ExecuteMove(move);
-                SwitchToState(typeof(PerformMove));
+                Switch(typeof(PerformMove));
                 return;
             }
 

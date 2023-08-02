@@ -13,7 +13,7 @@ public partial class Player
         {
             if (source.m_combat.framesExecuting >= source.m_combat.activeMove.recoveryMark)
             {
-                SwitchToState(typeof(Recovery));
+                Switch(typeof(Recovery));
                 return;
             }
 
