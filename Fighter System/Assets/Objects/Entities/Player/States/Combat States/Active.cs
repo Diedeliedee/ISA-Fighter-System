@@ -12,7 +12,10 @@ public partial class Player
         public override void OnTick()
         {
             if (source.m_combat.framesExecuting >= source.m_combat.activeMove.recoveryMark)
+            {
                 SwitchToState(typeof(Recovery));
+                return;
+            }
 
             source.m_movement.ApplyIteration();
             source.m_combat.hitRegister.CheckForHits();

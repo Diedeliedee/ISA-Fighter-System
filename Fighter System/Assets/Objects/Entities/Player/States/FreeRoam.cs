@@ -26,6 +26,7 @@ public partial class Player
             {
                 source.m_combat.ExecuteMove(move);
                 SwitchToState(typeof(PerformMove));
+                return;
             }
 
             //  Apply movement.

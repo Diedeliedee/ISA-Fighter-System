@@ -17,8 +17,6 @@
                     source.m_combat.ExecuteMove(move);
                     SwitchToState(typeof(Startup));
                 }
-
-                
             }
         }
 }

@@ -28,10 +28,9 @@ public partial class Player : MonoBehaviour
     {
         m_animator = GetComponentInChildren<Animator>();
 
-        m_movement  = new TwoDeeMovement(transform, m_movementSettings);
-        m_combat    = new CombatHandler(m_moveSet, m_hitRegister, m_animator);
-
-        m_stateMachine = new CompositeFSM<Player>
+        m_movement      = new TwoDeeMovement(transform, m_movementSettings);
+        m_combat        = new CombatHandler(m_moveSet, m_hitRegister, m_animator);
+        m_stateMachine  = new CompositeFSM<Player>
         (
             this,
 
@@ -43,6 +42,8 @@ public partial class Player : MonoBehaviour
                 new Recovery()
             )
         );
+
+        m_stateMachine.Start();
     }
 
     public void Tick(float deltaTime)

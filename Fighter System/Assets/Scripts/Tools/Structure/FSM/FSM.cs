@@ -21,11 +21,27 @@ namespace Joeri.Tools.Structure.StateMachine
 
         public FSM(params State[] states)
         {
-            Configure(states);
+            foreach (var state in states)
+            {
+                state.Setup(this);
+                m_states.Add(state.GetType(), state);
+            }
+            m_startState = states[0].GetType();
+        }
+
+        public virtual void Start()
+        {
+            SwitchToState(m_startState);
         }
 
         public virtual void Tick()
         {
+            if (m_activeState == null)
+            {
+                Debug.LogError("Active state is not yet set. Possibly the Start() function has not been called yet.");
+                return;
+            }
+
             m_activeState.OnTick();
         }
 
@@ -36,22 +52,6 @@ namespace Joeri.Tools.Structure.StateMachine
             catch   { Debug.LogError($"The state: '{state.Name}' is not found within the state dictionary."); return; }
             m_activeState?.OnEnter();
         }
-
-        /// <summary>
-        /// Recommended to only use in the constructor.
-        /// </summary>
-        protected void Configure(State[] states)
-        {
-            foreach (var state in states)
-            {
-                state.Setup(this);
-                m_states.Add(state.GetType(), state);
-            }
-
-            m_startState = states[0].GetType();
-            SwitchToState(m_startState);
-        }
-
 
         /// <summary>
         /// Tells the state machine to switch to another state of the passed in generic type.

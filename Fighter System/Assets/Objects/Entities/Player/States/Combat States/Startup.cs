@@ -20,10 +20,13 @@ public partial class Player
 
         public override void OnTick()
         {
-            source.m_movement.ApplyIteration();
-
             if (source.m_combat.framesExecuting >= source.m_combat.activeMove.activeMark)
+            {
                 SwitchToState(typeof(Active));
+                return;
+            }
+
+            source.m_movement.ApplyIteration();
         }
     }
 }

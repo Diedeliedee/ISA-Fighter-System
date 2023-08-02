@@ -6,6 +6,11 @@ namespace Joeri.Tools.Structure.StateMachine
     public interface IStateMachine
     {
         /// <summary>
+        /// Starts the state machine by switching to the default state.
+        /// </summary>
+        public void Start();
+
+        /// <summary>
         /// Calls the Tick() function within the active state.
         /// </summary>
         public void Tick();

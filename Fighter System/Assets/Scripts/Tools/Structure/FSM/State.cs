@@ -31,7 +31,6 @@ namespace Joeri.Tools.Structure.StateMachine
             this.owner = owner;
         }
 
-
         /// <summary>
         /// Requests the state machine to switch to another state based on the passed in generic type.
         /// </summary>
