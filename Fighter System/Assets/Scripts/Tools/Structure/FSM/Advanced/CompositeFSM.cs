@@ -22,6 +22,9 @@ namespace Joeri.Tools.Structure.StateMachine.Advanced
             ((CompositeState<T>)m_activeState).Tick();
         }
 
+        /// <summary>
+        /// Resets the state machine back to a default state.
+        /// </summary>
         public void Reset()
         {
             SwitchToState(m_startState);

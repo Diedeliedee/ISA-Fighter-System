@@ -44,8 +44,16 @@ namespace Joeri.Tools.Movement.TwoDee
             m_transform.position += new Vector3(velocity.x, velocity.y, 0f) * deltaTime;
         }
 
+        public void ApplyIteration(float drag = 0f, float deltaTime = 1f)
+        {
+            m_horizontal    .CalculateVelocity(drag, deltaTime);
+            m_vertical      .CalculateVelocity(deltaTime);
+
+            m_transform.position += new Vector3(velocity.x, velocity.y, 0f) * deltaTime;
+        }
+
         [System.Serializable]
-        public class Settings : BaseHandler.Settings
+        public new class Settings : BaseHandler.Settings
         {
 
         }
