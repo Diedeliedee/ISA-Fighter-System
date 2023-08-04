@@ -18,7 +18,7 @@ public partial class Player
             }
 
             source.m_movement.ApplyIteration();
-            source.m_combat.hitRegister.CheckForHits();
+            source.m_combat.hitRegister.CheckForHits(source.transform.position);
         }
     }
 }

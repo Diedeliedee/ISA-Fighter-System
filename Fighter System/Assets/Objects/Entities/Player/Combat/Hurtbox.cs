@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Joeri.Tools.Utilities;
 using Joeri.Tools.Debugging;
 
 [System.Serializable]
@@ -14,10 +15,10 @@ public class Hurtbox
     [Min(0f)]   public float    height;
 
     /// <returns>True if one ore more 2D colliders overlap with this hurtbox in the specified layermask.</returns>
-    public bool Hit(LayerMask mask, out Collider2D[] collider)
+    public bool Hit(Vector2 origin, LayerMask mask, out Collider2D[] colliders)
     {
-        collider = Physics2D.OverlapBoxAll(position, new Vector2(width, height), 0f, mask);
-        return (collider != null);
+        colliders = Physics2D.OverlapBoxAll(origin + position, new Vector2(width, height), 0f, mask);
+        return (!Util.IsUnusableArray(colliders));
     }
 
     /// <summary>

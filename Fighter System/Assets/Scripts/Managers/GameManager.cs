@@ -12,15 +12,15 @@ public class GameManager : Singleton<GameManager>
     public const int frameRate      = 60;
     public static float deltaTime   = 0f;
 
-    private uint m_frameCount = 0;
-
     //   Sub-managers:
     private EntityManager m_entities    = null;
-    private EventManager m_events       = null;
     private UIManager m_ui              = null;
 
+    private TimeManager m_time      = new TimeManager();
+    private EventManager m_events   = new EventManager();
+
     //  TODO: find proper place for input handler.
-    private InputHandler m_input = null;
+    private InputHandler m_input = new InputHandler();
 
     #region Properties
     public EventManager events { get => m_events; }
@@ -28,7 +28,7 @@ public class GameManager : Singleton<GameManager>
     public InputHistory inputHistory    { get => m_input.history; }
     public InputPackage latestInput     { get => m_input.lastPackage; }
 
-    public uint frameCount { get => m_frameCount; }
+    public uint frameCount { get => m_time.frameCount; }
     #endregion
 
     private void Awake()
@@ -37,24 +37,26 @@ public class GameManager : Singleton<GameManager>
         deltaTime                   = 1f / frameRate;
 
         instance    = this;
-        m_input     = new InputHandler();
 
         m_entities  = GetComponentInChildren<EntityManager>();
-        m_events    = GetComponentInChildren<EventManager>();
         m_ui        = GetComponentInChildren<UIManager>();
     }
 
     private void Start()
     {
         m_entities  .Setup();
+        m_time      .Setup();
         m_ui        .Setup();
     }
 
     private void Update()
     {
-        m_input     .GetPackage();
-        m_entities  .Tick(deltaTime);
+        if (!m_time.paused)
+        {
+            m_input     .GetPackage();
+            m_entities  .Tick(deltaTime);
+        }
 
-        m_frameCount++;
+        m_time.Tick();
     }
 }

@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+using System;
 
-public class EventManager : MonoBehaviour
+public class EventManager
 {
-    public UnityEvent<InputPackage> onInputChange;
+    public Action<InputPackage> onInputChange;
+
+    public Action onEntityHit;
 }

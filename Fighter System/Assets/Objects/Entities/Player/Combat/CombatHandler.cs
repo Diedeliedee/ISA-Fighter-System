@@ -79,6 +79,7 @@ public class CombatHandler
     /// </summary>
     private void OnHitTarget(PunchingBag target)
     {
+        GameManager.instance.events.onEntityHit?.Invoke();
         Debug.Log("Target hit!!!!");
     }
 }

@@ -18,7 +18,7 @@ public class InputLogger : MonoBehaviour
         m_indicators    = new LinkedList<InputIndicator>();
         m_field         = GetComponent<RectTransform>();
 
-        GameManager.instance.events.onInputChange.AddListener(AddIndicator);
+        GameManager.instance.events.onInputChange += AddIndicator;
     }
 
     public void AddIndicator(InputPackage package)

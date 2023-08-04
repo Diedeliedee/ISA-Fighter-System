@@ -40,6 +40,6 @@ public class InputHandler
 
         history.Add(package, GameManager.instance.frameCount);
         lastPackage = package;
-        GameManager.instance.events.onInputChange.Invoke(package);
+        GameManager.instance.events.onInputChange?.Invoke(package);
     }
 }

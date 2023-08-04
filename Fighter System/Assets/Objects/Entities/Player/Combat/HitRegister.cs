@@ -27,12 +27,12 @@ public class HitRegister<T> where T : Object
     /// Checks whether the hurtboxes caught anything,
     /// and calls an event as soon as an object with of this class' generic variable has been caught.
     /// </summary>
-    public void CheckForHits()
+    public void CheckForHits(Vector2 origin)
     {
         if (Util.IsUnusableArray(m_hurtboxes)) return;                              //  Return if there are no hurtboxes.
         foreach (var hurtbox in m_hurtboxes)                                        //  Otherwise, loop through every hurtbox.
         {
-            if (!hurtbox.Hit(m_hitmask, out Collider2D[] hitColliders)) continue;   //  Skip iteration if no colliders have been hit.
+            if (!hurtbox.Hit(origin, m_hitmask, out Collider2D[] hitColliders)) continue;   //  Skip iteration if no colliders have been hit.
             foreach (var collider in hitColliders)                                  //  If colliders have been hit, loop through them.
             {
                 if (m_caughtColliders.Contains(collider)) continue;                 //  Skip iteration if collider has already been caught.
