@@ -79,7 +79,8 @@ public class CombatHandler
     /// </summary>
     private void OnHitTarget(PunchingBag target)
     {
-        GameManager.instance.events.onEntityHit?.Invoke();
+        target.OnHit(activeMove.damage, activeMove.stun, activeMove.knockBack);
+        GameManager.instance.events.onEntityHit?.Invoke(activeMove.hitPause);
         Debug.Log("Target hit!!!!");
     }
 }

@@ -54,7 +54,7 @@ public class GameManager : Singleton<GameManager>
         if (!m_time.paused)
         {
             m_input     .GetPackage();
-            m_entities  .Tick(deltaTime);
+            m_entities  .Tick();
         }
 
         m_time.Tick();

@@ -12,11 +12,10 @@ namespace Joeri.Tools
     {
         private float m_magnitude       = 0f;
         private float m_frequency       = 0f;
-        private float m_smoothening     = 0f;  
-        private float m_tickMark        = 0f;
+        private float m_time              = 0f;  
+        private Timer m_tickTimer       = null;
         private float m_velocity        = 0f;
 
-        private float m_tickTimer       = 0f;  
         private Vector3 m_startPosition = Vector3.zero;
         private Vector3 m_currentOffset = Vector3.zero;
 
@@ -46,27 +45,27 @@ namespace Joeri.Tools
             }
         }
 
-        public float smoothening
+        public float time
         {
-            get => m_smoothening;
+            get => m_time;
             set
             {
-                m_smoothening = value;
+                m_time = value;
                 ReInitialize();
             }
         }
 
-        public float mark { get => m_tickMark; }
+        public float mark { get => m_tickTimer.time; }
 
-        public ShakeInstancer(Vector3 startPosition, float magnitude, float frequency, float smoothening)
+        public ShakeInstancer(Vector3 startPosition, float magnitude, float frequency, float time)
         {
             m_startPosition = startPosition;
             m_magnitude     = magnitude;
             m_frequency     = frequency;
-            m_smoothening   = smoothening;
-            m_tickMark      = 1f / frequency;
+            m_time          = time;
+            m_tickTimer     = new Timer(1f / frequency);
 
-            m_tickTimer     = m_tickMark;
+            m_tickTimer.timer = m_tickTimer.time;
         }
 
         /// <summary>
@@ -90,28 +89,19 @@ namespace Joeri.Tools
                 m_currentOffset = Vector3.zero;
                 return Vector3.zero;
             }
+            
+            m_magnitude = Mathf.SmoothDamp(m_magnitude, 0f, ref m_velocity, m_time, Mathf.Infinity, deltaTime); //  Gradually decrease the magnitude.
 
-            //  Wait until the timer has passed the mark for further action.
-            m_tickTimer += deltaTime;
-            m_magnitude = Mathf.SmoothDamp(m_magnitude, 0f, ref m_velocity, m_smoothening, Mathf.Infinity, deltaTime);
-            //m_magnitude = Mathf.Lerp(m_magnitude, 0f, deltaTime / smoothening);
-            if (m_tickTimer < m_tickMark) return m_currentOffset;
-            m_tickTimer = 0f;
-
-            //  Create new offset, and lower the magnitude.
-            m_currentOffset = Vectors.RandomSpherePoint(m_magnitude);
-
-            Debug.Log(m_magnitude);
-
-            //  Return.
-            return m_currentOffset;
+            if (m_frequency < Mathf.Infinity && !m_tickTimer.ResetOnReach(deltaTime)) return m_currentOffset;   //  Wait until the timer has reached it's end.
+            
+            m_currentOffset = Vectors.RandomSpherePoint(m_magnitude);                                           //  Create new offset.
+            return m_currentOffset;                                                                             //  Return the offset.
         }
 
         public void ReInitialize()
         {
             m_velocity      = 0f;
-            m_tickMark      = 1f / m_frequency;
-            m_tickTimer     = m_tickMark;
+            m_tickTimer     = new Timer(1f / m_frequency);
             m_currentOffset = Vector3.zero;
         }
     }

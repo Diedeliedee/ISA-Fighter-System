@@ -4,5 +4,5 @@ public class EventManager
 {
     public Action<InputPackage> onInputChange;
 
-    public Action onEntityHit;
+    public Action<int> onEntityHit;
 }

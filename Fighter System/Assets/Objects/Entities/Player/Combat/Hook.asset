@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ad42eb8f43e4944b738581d0dc6a1b, type: 3}
   m_Name: Hook
   m_EditorClassIdentifier: 
+  m_damage: 10
   m_hurtboxes:
   - position: {x: 1, y: 1}
     width: 1
@@ -22,4 +23,7 @@ MonoBehaviour:
   m_startup: 4
   m_active: 4
   m_recovery: 17
+  m_hitPause: 5
+  m_opponentStun: 5
   m_movementAmount: 0.5
+  m_opponentKnockback: 0.2

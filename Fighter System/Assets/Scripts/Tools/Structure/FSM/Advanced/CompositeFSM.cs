@@ -12,6 +12,8 @@ namespace Joeri.Tools.Structure.StateMachine.Advanced
         private CompositeState<T> m_activeRootState                 = null;
         private Dictionary<Type, CompositeState<T>> m_rootStates    = new Dictionary<Type, CompositeState<T>>();
 
+        public CompositeState<T> activeState { get => m_activeRootState; }
+
         public CompositeFSM(T source, params CompositeState<T>[] states)
         {
             foreach (var state in states)

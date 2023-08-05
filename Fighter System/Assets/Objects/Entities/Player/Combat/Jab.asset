@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ad42eb8f43e4944b738581d0dc6a1b, type: 3}
   m_Name: Jab
   m_EditorClassIdentifier: 
+  m_damage: 10
   m_hurtboxes:
   - position: {x: 1, y: 1}
     width: 1
@@ -31,4 +32,7 @@ MonoBehaviour:
   m_startup: 3
   m_active: 3
   m_recovery: 9
+  m_hitPause: 5
+  m_opponentStun: 3
   m_movementAmount: 0.25
+  m_opponentKnockback: 0.1

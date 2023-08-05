@@ -44,7 +44,7 @@ public partial class Player : MonoBehaviour
         );
     }
 
-    public void Tick(float deltaTime)
+    public void Tick()
     {
         m_stateMachine.Tick();
     }

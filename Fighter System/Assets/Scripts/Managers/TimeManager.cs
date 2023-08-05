@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class TimeManager
 {
-    public uint frameCount    = 0;
-    public bool paused          = false;
+    public uint frameCount  = 0;
+    public bool paused      = false;
 
-    private int m_hitPauseAmount    = 10;
+    private int m_hitPauseAmount    = 0;
     private int m_hitPauseTimer     = 0;
 
     public void Setup()
@@ -24,9 +24,11 @@ public class TimeManager
         {
             if (m_hitPauseTimer > m_hitPauseAmount)
             {
+                m_hitPauseAmount    = 0;
+                m_hitPauseTimer     = 0;
+
                 Time.timeScale  = 1f;
                 paused          = false;
-                m_hitPauseTimer = 0;
             }
             else
             {
@@ -38,9 +40,12 @@ public class TimeManager
         frameCount++;
     }
 
-    public void OnHitPause()
+    public void OnHitPause(int frames)
     {
-        Time.timeScale  = 0f;
-        paused          = true;
+        m_hitPauseAmount    = frames;
+        m_hitPauseTimer     = 0;
+
+        Time.timeScale      = 0f;
+        paused              = true;
     }
 }
