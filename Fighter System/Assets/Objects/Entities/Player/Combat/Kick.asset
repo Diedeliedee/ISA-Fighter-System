@@ -22,8 +22,8 @@ MonoBehaviour:
   m_followups: []
   m_startup: 6
   m_active: 2
-  m_recovery: 42
-  m_hitPause: 10
+  m_recovery: 22
+  m_hitPause: 8
   m_opponentStun: 10
   m_movementAmount: 0.25
   m_opponentKnockback: 0.5

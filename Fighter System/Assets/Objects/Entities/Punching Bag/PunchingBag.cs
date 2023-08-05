@@ -17,10 +17,14 @@ public partial class PunchingBag : MonoBehaviour
     [Header("Reference:")]
     [SerializeField] private Transform m_model;
 
-    private CompositeFSM<PunchingBag> m_stateMachine = null;
+    private float m_startPosition = 0f;
 
+    private CompositeFSM<PunchingBag> m_stateMachine = null;
+    
     public void Setup()
     {
+        m_startPosition = transform.localPosition.x;
+
         m_stateMachine = new CompositeFSM<PunchingBag>
         (
             this,
