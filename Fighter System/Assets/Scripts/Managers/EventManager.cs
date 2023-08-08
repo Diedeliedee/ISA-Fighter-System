@@ -2,7 +2,7 @@ using System;
 
 public class EventManager
 {
-    public Action<InputPackage> onInputChange;
+    public Action<InputPackage> onInputChange { get; set; }
 
-    public Action<int> onEntityHit;
+    public Action<HitInstance> onEntityHit { get; set; }
 }

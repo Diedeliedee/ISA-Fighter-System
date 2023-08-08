@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Joeri.Tools.Utilities;
 
-public class CombatHandler
+public partial class CombatHandler
 {
     //  Dependencies:
     public MoveSet moveset                      = null;
@@ -79,8 +79,9 @@ public class CombatHandler
     /// </summary>
     private void OnHitTarget(PunchingBag target)
     {
+        var hitInstance = new HitInstance(activeMove.hitPause, activeMove.damage);
+
         target.OnHit(activeMove.damage, activeMove.stun, activeMove.knockBack);
-        GameManager.instance.events.onEntityHit?.Invoke(activeMove.hitPause);
-        Debug.Log("Target hit!!!!");
+        GameManager.instance.events.onEntityHit?.Invoke(hitInstance);
     }
 }

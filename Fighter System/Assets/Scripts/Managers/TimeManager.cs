@@ -40,9 +40,9 @@ public class TimeManager
         frameCount++;
     }
 
-    public void OnHitPause(int frames)
+    public void OnHitPause(HitInstance hit)
     {
-        m_hitPauseAmount    = frames;
+        m_hitPauseAmount    = hit.hitPause;
         m_hitPauseTimer     = 0;
 
         Time.timeScale      = 0f;

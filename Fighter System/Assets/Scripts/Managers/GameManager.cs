@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     //   Sub-managers:
     private EntityManager m_entities    = null;
     private UIManager m_ui              = null;
+    private CameraManager m_camera             = null;
 
     private TimeManager m_time      = new TimeManager();
     private EventManager m_events   = new EventManager();
@@ -40,6 +41,7 @@ public class GameManager : Singleton<GameManager>
 
         m_entities  = GetComponentInChildren<EntityManager>();
         m_ui        = GetComponentInChildren<UIManager>();
+        m_camera    = GetComponentInChildren<CameraManager>();
     }
 
     private void Start()
@@ -47,6 +49,7 @@ public class GameManager : Singleton<GameManager>
         m_entities  .Setup();
         m_time      .Setup();
         m_ui        .Setup();
+        m_camera    .Setup();
     }
 
     private void Update()
@@ -55,6 +58,7 @@ public class GameManager : Singleton<GameManager>
         {
             m_input     .GetPackage();
             m_entities  .Tick();
+            m_camera    .Tick();
         }
 
         m_time.Tick();
