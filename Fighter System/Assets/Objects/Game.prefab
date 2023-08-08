@@ -94,9 +94,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerOne: {fileID: 279525135103590258}
   m_playerTwo: {fileID: 6832354534558309129}
-  m_minimumFOV: 20
+  m_minimumFOV: 25
   m_smoothTime: 0.075
-  m_fovMultiplier: 1.75
+  m_fovMultiplier: 1.35
 --- !u!1 &6235874749298425802
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -283,7 +283,7 @@ PrefabInstance:
     - target: {fileID: 6347342357901331844, guid: e7c55fbb91bda34479583d5acc6e7ada,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6347342357901331844, guid: e7c55fbb91bda34479583d5acc6e7ada,
         type: 3}
@@ -370,7 +370,7 @@ PrefabInstance:
     - target: {fileID: 4575733434874618310, guid: 75c930bb71eeef04888a6553659916be,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4575733434874618310, guid: 75c930bb71eeef04888a6553659916be,
         type: 3}
