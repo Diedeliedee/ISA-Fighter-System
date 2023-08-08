@@ -63,13 +63,13 @@ public struct JoystickInput
 
     private static Direction ToDirection(Vector2 direction)
     {
-        if (direction.y > 0)
+        if (direction.y > Mathf.Abs(direction.x) / 3)
         {
             if (direction.x < -direction.y / 2) return Direction.TopLeft;
             if (direction.x > direction.y / 2)  return Direction.TopRight;
                                                 return Direction.Up;
         }
-        else if (direction.y < 0)
+        else if (direction.y < -Mathf.Abs(direction.x) / 3)
         {
             if (direction.x < direction.y / 2)  return Direction.DownLeft;
             if (direction.x > -direction.y / 2) return Direction.DownRight;
