@@ -8,6 +8,13 @@ public struct JoystickInput
     public Vector2Int   vector;
     public Vector2      raw;
 
+    public JoystickInput(Vector2Int vector)
+    {
+        this.vector = vector;
+        direction   = ToDirection(vector);
+        raw         = vector;
+    }
+
     public JoystickInput(StickControl stick)
     {
         raw         = stick.ReadValue();
@@ -59,6 +66,11 @@ public struct JoystickInput
     public static bool operator !=(JoystickInput lhs, JoystickInput rhs)
     {
         return !lhs.Equals(rhs);
+    }
+
+    public static JoystickInput operator +(JoystickInput lhs, JoystickInput rhs)
+    {
+        return new JoystickInput(lhs.vector + rhs.vector);
     }
 
     private static Direction ToDirection(Vector2 direction)

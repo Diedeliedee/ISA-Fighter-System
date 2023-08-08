@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem;
 
 public struct InputPackage
 {
@@ -9,11 +9,18 @@ public struct InputPackage
     public readonly ButtonInput     punchButton;
     public readonly ButtonInput     kickButton;
 
-    public InputPackage(StickControl stick, ButtonControl punch, ButtonControl kick)
+    public InputPackage(JoystickInput joystick, ButtonInput punchButton, ButtonInput kickButton)
     {
-        joystick    = new JoystickInput(stick);
-        punchButton = new ButtonInput(punch);
-        kickButton  = new ButtonInput(kick);
+        this.joystick       = joystick;
+        this.punchButton    = punchButton;
+        this.kickButton     = kickButton;
+    }
+
+    public InputPackage(Gamepad gamepad)
+    {
+        joystick    = new JoystickInput(gamepad.leftStick) + new JoystickInput(gamepad.dpad);
+        punchButton = new ButtonInput(gamepad.buttonSouth);
+        kickButton  = new ButtonInput(gamepad.buttonEast);
     }
 
     public InputPackage(KeyCode up, KeyCode down, KeyCode left, KeyCode right, KeyCode punch, KeyCode kick)
@@ -46,5 +53,10 @@ public struct InputPackage
     public static bool operator !=(InputPackage lhs, InputPackage rhs)
     {
         return !lhs.Equals(rhs);
+    }
+
+    public static InputPackage operator + (InputPackage lhs, InputPackage rhs)
+    {
+        return new InputPackage(lhs.joystick + rhs.joystick, lhs.punchButton + rhs.punchButton, lhs.kickButton + rhs.kickButton);
     }
 }

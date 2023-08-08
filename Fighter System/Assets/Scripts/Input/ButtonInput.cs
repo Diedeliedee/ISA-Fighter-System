@@ -7,6 +7,13 @@ public struct ButtonInput
     public readonly bool holding;
     public readonly bool released;
 
+    public ButtonInput(bool pressed, bool holding, bool released)
+    {
+        this.pressed    = pressed;
+        this.holding    = holding;
+        this.released   = released;
+    }
+
     public ButtonInput(ButtonControl button)
     {
         pressed     = button.wasPressedThisFrame;
@@ -40,5 +47,10 @@ public struct ButtonInput
     public static bool operator !=(ButtonInput lhs, ButtonInput rhs)
     {
         return !lhs.Equals(rhs);
+    }
+
+    public static ButtonInput operator +(ButtonInput lhs, ButtonInput rhs)
+    {
+        return new ButtonInput(lhs.pressed || rhs.pressed, lhs.holding || rhs.holding, lhs.released || rhs.released);
     }
 }

@@ -13,21 +13,9 @@ public class InputHandler
         history = new InputHistory();
     }
 
-    public InputPackage GetPackage(Gamepad gamepad)
-    {
-        var package = new InputPackage(gamepad.leftStick, gamepad.buttonSouth, gamepad.buttonEast);
-
-        SavePackage(package);
-        return package;
-    }
-
     public InputPackage GetPackage()
     {
-        InputPackage package;
-
-        //  Choose between keyboard or controller input.
-        if (Gamepad.current == null)    package = new InputPackage(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.M, KeyCode.K);
-        else                            package = new InputPackage(Gamepad.current.leftStick, Gamepad.current.buttonSouth, Gamepad.current.buttonEast);
+        InputPackage package = new InputPackage(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.M, KeyCode.K  ) + new InputPackage(Gamepad.current);
 
         SavePackage(package);
         return package;
