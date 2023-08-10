@@ -10,13 +10,13 @@ public class HitRegister<T> where T : Object
 {
     [SerializeField] private LayerMask m_hitmask;
 
-    private Hurtbox[] m_hurtboxes                   = null;
-    private HashSet<Collider2D> m_caughtColliders   = null;
-    private System.Action<T> m_onHit                = null;
+    private Hurtbox[] m_hurtboxes                           = null;
+    private HashSet<Collider2D> m_caughtColliders           = null;
+    private System.Action<T, Collider2D, Hurtbox> m_onHit   = null;
 
     public Hurtbox[] hurtboxes { get => m_hurtboxes; set => m_hurtboxes = value; }
 
-    public void Setup(System.Action<T> onHit)
+    public void Setup(System.Action<T, Collider2D, Hurtbox> onHit)
     {
         m_caughtColliders   = new HashSet<Collider2D>();
 
@@ -38,7 +38,7 @@ public class HitRegister<T> where T : Object
                 if (m_caughtColliders.Contains(collider)) continue;                         //  Skip iteration if collider has already been caught.
                 m_caughtColliders.Add(collider);                                            //  Save collider if it hasn't been caught yet.
                 if (!collider.TryGetComponent(out T hitObject)) continue;                   //  Skip iteration if the caught collider doesn't have what we're looking for.
-                m_onHit?.Invoke(hitObject);                                                 //  If we found what we're looking for, call the associated event.
+                m_onHit?.Invoke(hitObject, collider, hurtbox);                              //  If we found what we're looking for, call the associated event.
             }
         }
     }

@@ -12,6 +12,9 @@ public partial class Player : MonoBehaviour
     [SerializeField] private TwoDeeMovement.Settings    m_movementSettings;
     [SerializeField] private HitRegister<PunchingBag>   m_hitRegister;
     [SerializeField] private AnimationClip              m_idleAnimation;
+    [SerializeField] private AnimationClip              m_crouchAnimation;
+    [Space]
+    [SerializeField] private float m_crouchSpeed = 0.5f;
     [Space]
     [SerializeField] private MoveSet                    m_moveSet;
 
@@ -34,7 +37,11 @@ public partial class Player : MonoBehaviour
         (
             this,
 
-            new FreeRoam(),
+            new Grounded
+            (
+                new Standing(),
+                new Crouching()
+            ),
             new PerformMove
             (
                 new Startup(),

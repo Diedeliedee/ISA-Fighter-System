@@ -14,16 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 20
   m_hurtboxes:
-  - position: {x: 1, y: 1}
-    width: 1
-    height: 1
+  - position: {x: 0.88, y: 1.33}
+    width: 0.71
+    height: 0.21
+  - position: {x: 0.39, y: 1.11}
+    width: 0.79
+    height: 0.25
   m_animation: {fileID: 7051805969413750746, guid: bb8bf029c3a69da41a48216c6d32f291,
     type: 3}
   m_followups: []
   m_startup: 6
   m_active: 2
   m_recovery: 22
-  m_hitPause: 8
+  m_hitPause: 5
   m_opponentStun: 10
   m_movementAmount: 0.25
   m_opponentKnockback: 0.5

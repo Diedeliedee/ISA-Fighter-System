@@ -77,9 +77,9 @@ public partial class CombatHandler
     /// <summary>
     /// Called by an event, executes proper logic once a target has been hit.
     /// </summary>
-    private void OnHitTarget(PunchingBag target)
+    private void OnHitTarget(PunchingBag target, Collider2D collider, Hurtbox hurtbox)
     {
-        var hitInstance = new HitInstance(activeMove.hitPause, activeMove.damage);
+        var hitInstance = new HitInstance(activeMove, collider, hurtbox);
 
         target.OnHit(activeMove.damage, activeMove.stun, activeMove.knockBack);
         GameManager.instance.events.onEntityHit?.Invoke(hitInstance);

@@ -70,7 +70,10 @@ public struct JoystickInput
 
     public static JoystickInput operator +(JoystickInput lhs, JoystickInput rhs)
     {
-        return new JoystickInput(lhs.vector + rhs.vector);
+        var xInput = Mathf.Clamp(lhs.vector.x + rhs.vector.x, -1, 1);
+        var yInput = Mathf.Clamp(lhs.vector.y + rhs.vector.y, -1, 1);
+
+        return new JoystickInput(new Vector2Int(xInput, yInput));
     }
 
     private static Direction ToDirection(Vector2 direction)
