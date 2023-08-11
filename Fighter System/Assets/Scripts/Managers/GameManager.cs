@@ -64,6 +64,7 @@ public class GameManager : Singleton<GameManager>
             m_camera    .Tick();
         }
 
-        m_time.Tick();
+        m_time  .Tick();
+        m_ui    .Tick();
     }
 }

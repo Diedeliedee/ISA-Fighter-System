@@ -19,10 +19,21 @@ public partial class PunchingBag
 
         public void Initiate(int damage, int frames, float knockback)
         {
-            m_frames = frames;
+            m_frames = frames;                              //  Register how many frames of stun.
 
-            m_velocity  = knockback / frames;
-            m_shake     = new ShakeInstancer(source.m_model.localPosition, (float)damage / source.m_health.maxHealth, Mathf.Infinity, frames);
+            m_velocity  = knockback / frames;               //  Register the amount of movement from the knockback.
+            m_shake     = new ShakeInstancer                //  Initiate the shake class.
+            (
+                source.m_model.localPosition,
+                (float)damage / source.m_health.maxHealth,
+                Mathf.Infinity,
+                frames
+            );
+        }
+
+        public override void OnEnter()
+        {
+            source.m_animator.enabled = false;  //  Disable the animator, so the shake isn't overidden.
         }
 
         public override void OnTick()
@@ -34,18 +45,20 @@ public partial class PunchingBag
                 return;
             }
 
-            source.transform.position       += new Vector3(m_velocity, 0f); //  Apply knockback.
-            source.m_model.localPosition    = m_shake.GetPosition(1f);      //  Apply shake effect.
+            source.xPosition                += m_velocity;              //  Apply knockback.
+            source.m_model.localPosition    = m_shake.GetPosition(1f);  //  Apply shake effect.
 
-            m_framesActive++;                                               //  Iterate counter.
+            m_framesActive++;                                           //  Iterate counter.
         }
 
         public override void OnExit()
         {
-            source.m_model.localPosition = m_shake.startPosition;   //  Reset the model's position.
+            source.m_model.localPosition    = m_shake.startPosition;    //  Reset the model's position.
+            source.m_animator.enabled       = true;                     //  Re-enable the animator.
+
 
             //  Reset variables.
-            m_shake         = null;
+            m_shake = null;
             m_velocity      = 0f;
 
             m_frames        = 0;

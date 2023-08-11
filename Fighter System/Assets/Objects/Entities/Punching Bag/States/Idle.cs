@@ -13,6 +13,11 @@ public partial class PunchingBag
         private const int m_recoveryDuration    = 10;
         private float m_velocity                = 0f;
 
+        public override void OnEnter()
+        {
+            source.m_animator.Play(source.m_idleClip.name);
+        }
+
         public override void OnTick()
         {
             var currentPos  = source.transform.localPosition;

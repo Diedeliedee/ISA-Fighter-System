@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4575733434461484036}
+  - component: {fileID: 7670196616937093629}
   - component: {fileID: 4575733434461484042}
   - component: {fileID: 4575733434461484037}
+  - component: {fileID: 5237176456943948903}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -33,6 +35,48 @@ Transform:
   m_Father: {fileID: 4575733434874618310}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7670196616937093629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4575733434461484039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0ffa37b09e8974b950c101e37d4bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4575733434874618305}
+        m_TargetAssemblyTypeName: PunchingBag, Assembly-CSharp
+        m_MethodName: ToIdle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDeathEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4575733434874618305}
+        m_TargetAssemblyTypeName: PunchingBag, Assembly-CSharp
+        m_MethodName: Respawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!33 &4575733434461484042
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -83,6 +127,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &5237176456943948903
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4575733434461484039}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: add00790113f9864d97d5695e68ef3e8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4575733434874618307
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,6 +196,10 @@ MonoBehaviour:
   m_health:
     m_maxHealth: 100
     m_health: 100
+  m_idleClip: {fileID: 7400000, guid: 838166354845763459b52f78a14b255f, type: 2}
+  m_hitClip: {fileID: 7400000, guid: d632f900181faa043be4ca1272d33a45, type: 2}
+  m_deathClip: {fileID: 7400000, guid: 495963510e820fc4e97f5949a5536f9e, type: 2}
+  m_spawnClip: {fileID: 7400000, guid: 1e1bffe7fb9bd444f830ac74972fbaa1, type: 2}
   m_model: {fileID: 4575733434461484036}
 --- !u!61 &4575733434874618304
 BoxCollider2D:

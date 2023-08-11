@@ -10,9 +10,11 @@ public class InputIndicator : MonoBehaviour
     [SerializeField] private float m_inactiveMulitplier = 0.5f;
 
     [Header("Reference:")]
-    [SerializeField] private RectTransform m_arrow; 
-    [SerializeField] private Image m_punchButton; 
-    [SerializeField] private Image m_kickButton;
+    [SerializeField] private RectTransform m_arrow;
+    [Space]
+    [SerializeField] private Image m_arrowImage;
+    [SerializeField] private Image m_punchImage;
+    [SerializeField] private Image m_kickImage;
 
     private RectTransform m_transform = null;
 
@@ -38,19 +40,28 @@ public class InputIndicator : MonoBehaviour
         //  Get transform reference.
         m_transform = GetComponent<RectTransform>();
 
-        //  Initiate values.
-        var arrowAngle  = 0f;
-        var punchColor  = m_punchButton.color;
-        var kickColor   = m_kickButton.color;
+        //  Arrow.
+        if (input.joystick.direction != JoystickInput.Direction.None)
+        {
+            //  Change sprite to the arrow.
+            m_arrowImage.gameObject.SetActive(true);
 
-        //  Alter values.
-        arrowAngle                                  = -Vectors.VectorToAngle(input.joystick.vector);
+            //  Rotate the arrow to the desired angle.
+            m_arrow.localRotation = Quaternion.Euler(0f, 0f, -Vectors.VectorToAngle(input.joystick.vector));
+
+            //  Rotate around it's y axis to get the proper shine. :)
+            if (input.joystick.vector.x > 0 || input.joystick.vector.y < 0) 
+                m_arrow.Rotate(0f, 180f, 0f);
+        }
+
+        //  Button.
+        var punchColor  = m_punchImage.color;
+        var kickColor   = m_kickImage.color;
+
         if (!input.punchButton.holding) punchColor  *= m_inactiveMulitplier;
         if (!input.kickButton.holding) kickColor    *= m_inactiveMulitplier;
 
-        //  Reassign values.
-        m_arrow.localRotation   = Quaternion.Euler(0f, 0f, arrowAngle);
-        m_punchButton.color     = punchColor;
-        m_kickButton.color      = kickColor;
+        m_punchImage.color  = punchColor;
+        m_kickImage.color   = kickColor;
     }
 }
