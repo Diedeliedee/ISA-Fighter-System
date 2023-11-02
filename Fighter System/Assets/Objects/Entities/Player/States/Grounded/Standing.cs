@@ -11,7 +11,7 @@ public partial class Player
     {
         public override void OnEnter()
         {
-            source.m_animator.Play(source.m_idleAnimation.name);
+            source.m_animator.CrossFadeInFixedTime(source.m_idleAnimation.name, 0.066f);
         }
 
         public override void OnTick()

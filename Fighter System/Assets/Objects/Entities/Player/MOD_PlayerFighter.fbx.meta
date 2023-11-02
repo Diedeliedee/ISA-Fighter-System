@@ -15,6 +15,15 @@ ModelImporter:
   - first:
       74: -7963287405223752498
     second: Armature|ANIM_Jab
+  - first:
+      74: -7050063222508086585
+    second: Armature|ANIM_Idle_Crouch
+  - first:
+      74: -2417717084235178112
+    second: Armature|ANIM_LowSweep
+  - first:
+      74: -9170078503021978252
+    second: Armature|ANIM_ToCrouch
   externalObjects: {}
   materials:
     materialImportMode: 2

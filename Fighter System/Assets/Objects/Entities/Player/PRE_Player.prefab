@@ -59,7 +59,8 @@ MonoBehaviour:
       m_Bits: 128
   m_idleAnimation: {fileID: 1762596049416479665, guid: bb8bf029c3a69da41a48216c6d32f291,
     type: 3}
-  m_crouchAnimation: {fileID: 0}
+  m_crouchAnimation: {fileID: -7050063222508086585, guid: bb8bf029c3a69da41a48216c6d32f291,
+    type: 3}
   m_crouchSpeed: 2.5
   m_moveSet: {fileID: 11400000, guid: c4598478b555d08498bcc3bccfd142ff, type: 2}
 --- !u!143 &9003151849253904227

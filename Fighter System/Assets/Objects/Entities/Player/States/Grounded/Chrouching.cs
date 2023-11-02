@@ -17,7 +17,7 @@ public partial class Player
             m_speedSwapper          = new Swapper<float>(source.m_crouchSpeed);
             source.m_movement.speed = m_speedSwapper.Swap(source.m_movement.speed);
 
-          //source.m_animator.Play(source.m_crouchAnimation.name);
+            source.m_animator.CrossFadeInFixedTime(source.m_crouchAnimation.name, 0.066f);
         }
 
         public override void OnTick()
